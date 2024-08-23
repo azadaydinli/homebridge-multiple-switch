@@ -1,0 +1,51 @@
+{
+  "pluginAlias": "MultipleSwitchAccessory",
+  "pluginType": "accessory",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Accessory Name",
+        "type": "string",
+        "required": true
+      },
+      "addMasterSwitch": {
+        "title": "Add Master Switch",
+        "type": "boolean",
+        "default": false
+      },
+      "switchNames": {
+        "title": "Switches",
+        "type": "array",
+        "items": {
+          "type": "string",
+          "title": "Switch Name",
+          "required": true
+        },
+        "minItems": 1,
+        "default": ["Switch 1"]
+      }
+    }
+  },
+  "layout": [
+    {
+      "key": "name",
+      "title": "Accessory Name"
+    },
+    {
+      "key": "addMasterSwitch",
+      "title": "Add Master Switch"
+    },
+    {
+      "key": "switchNames",
+      "title": "Switches",
+      "type": "array",
+      "items": {
+        "key": "switchNames[]",
+        "title": "Switch Name",
+        "required": true
+      },
+      "add": "ADD SWITCH"
+    }
+  ]
+}

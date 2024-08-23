@@ -1,0 +1,15 @@
+{
+  "name": "homebridge-multiple-switch",
+  "version": "1.0.0",
+  "description": "Multiple switch accessory for Homebridge",
+  "main": "index.js",
+  "author": "Azad Aydınlı",
+  "license": "ISC",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=14.17.0",
+    "homebridge": ">=1.3.0"
+  }
+}
