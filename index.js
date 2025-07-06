@@ -1,61 +1,72 @@
-let Service, Characteristic;
+let Accessory, Service, Characteristic, UUIDGen;
 
-module.exports = (homebridge) => {
-    Service = homebridge.hap.Service;
-    Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("MultipleSwitchAccessory", MultipleSwitchAccessory);
+module.exports = (api) => {
+  Accessory = api.hap.Accessory;
+  Service = api.hap.Service;
+  Characteristic = api.hap.Characteristic;
+  UUIDGen = api.hap.uuid;
+
+  api.registerAccessory("MultipleSwitchAccessory", MultipleSwitchAccessory);
 };
 
 class MultipleSwitchAccessory {
-    constructor(log, config) {
-        this.log = log;
-        this.name = config.name || "Multiple Switch";
-        this.addMasterSwitch = config.addMasterSwitch || false;
-        this.switchNames = config.switchNames.map((name, index) => name || `Switch ${index + 1}`);
+  constructor(log, config, api) {
+    this.log = log;
+    this.config = config;
+    this.name = config.name;
+    this.switches = config.switches || [];
+    this.mode = config.switchBehavior || "independent";
+    this.services = [];
 
-        this.switchStates = Array(this.switchNames.length).fill(false);
-        this.services = [];
+    const uuid = UUIDGen.generate(this.name);
+    this.accessory = new Accessory(this.name, uuid);
+    this.switchStates = Array(this.switches.length).fill(false);
 
-        if (this.addMasterSwitch) {
-            const masterSwitchService = new Service.Switch(`${this.name} Master`, 'masterSwitch');
-            masterSwitchService.getCharacteristic(Characteristic.On)
-                .on('set', this.setMasterSwitch.bind(this))
-                .on('get', this.getMasterSwitch.bind(this));
-            this.services.push(masterSwitchService);
-        }
+    this.switches.forEach((sw, index) => {
+      const service = new Service.Outlet(sw.name, "switch_" + index);
+      service
+        .getCharacteristic(Characteristic.On)
+        .onGet(() => this.switchStates[index])
+        .onSet((value) => this.setState(index, value));
+      this.accessory.addService(service);
+      this.services.push(service);
+    });
 
-        this.switchNames.forEach((name, i) => {
-            const switchService = new Service.Switch(name, `switch${i + 1}`);
-            switchService.getCharacteristic(Characteristic.On)
-                .on('set', this.setOn.bind(this, i))
-                .on('get', this.getOn.bind(this, i));
-            this.services.push(switchService);
-        });
+    if (this.mode === "master") {
+      const master = new Service.Outlet("Master", "master");
+      master
+        .getCharacteristic(Characteristic.On)
+        .onGet(() => this.switchStates.every((s) => s))
+        .onSet((value) => this.setAll(value));
+      this.accessory.addService(master);
+      this.services.unshift(master);
     }
+  }
 
-    setMasterSwitch(value, callback) {
-        this.switchStates = this.switchStates.map(() => value);
-        this.services.slice(1).forEach((service, i) => {
-            service.getCharacteristic(Characteristic.On).updateValue(value);
-        });
-        callback(null);
+  setState(index, value) {
+    if (this.mode === "single" && value) {
+      this.switchStates = this.switchStates.map((_, i) => i === index);
+    } else {
+      this.switchStates[index] = value;
     }
+    this.updateStates();
+  }
 
-    getMasterSwitch(callback) {
-        const allOn = this.switchStates.every(state => state === true);
-        callback(null, allOn);
-    }
+  setAll(value) {
+    this.switchStates = this.switchStates.map(() => value);
+    this.updateStates();
+  }
 
-    setOn(index, value, callback) {
-        this.switchStates[index] = value;
-        callback(null);
-    }
+  updateStates() {
+    this.switches.forEach((_, i) => {
+      this.services
+        .find((s) => s.subtype === "switch_" + i)
+        ?.getCharacteristic(Characteristic.On)
+        .updateValue(this.switchStates[i]);
+    });
+  }
 
-    getOn(index, callback) {
-        callback(null, this.switchStates[index]);
-    }
-
-    getServices() {
-        return this.services;
-    }
+  getServices() {
+    return [this.accessory.getService(Service.AccessoryInformation), ...this.accessory.services];
+  }
 }
