@@ -1,0 +1,41 @@
+{
+  "pluginAlias": "MultipleSwitchAccessory",
+  "pluginType": "accessory",
+  "headerDisplay": "Multiple Switch Accessory",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Accessory Name",
+        "type": "string",
+        "default": "Multiple Switch"
+      },
+      "switchBehavior": {
+        "title": "Switch Behavior Mode",
+        "type": "string",
+        "default": "independent",
+        "oneOf": [
+          { "title": "Independent", "enum": ["independent"] },
+          { "title": "Master", "enum": ["master"] },
+          { "title": "Single", "enum": ["single"] }
+        ]
+      },
+      "switches": {
+        "title": "Switches",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Switch Name",
+              "type": "string"
+            }
+          },
+          "required": ["name"]
+        },
+        "default": [{ "name": "Switch 1" }]
+      }
+    },
+    "required": ["name", "switches"]
+  }
+}
