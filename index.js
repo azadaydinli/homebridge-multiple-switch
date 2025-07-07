@@ -1,72 +1,78 @@
-let Accessory, Service, Characteristic, UUIDGen;
+let Accessory, Service, Characteristic;
 
-module.exports = (api) => {
-  Accessory = api.hap.Accessory;
-  Service = api.hap.Service;
-  Characteristic = api.hap.Characteristic;
-  UUIDGen = api.hap.uuid;
+module.exports = (homebridge) => {
+  Accessory = homebridge.platformAccessory || homebridge.hap.Accessory;
+  Service = homebridge.hap.Service;
+  Characteristic = homebridge.hap.Characteristic;
 
-  api.registerAccessory("MultipleSwitchAccessory", MultipleSwitchAccessory);
+  homebridge.registerAccessory(
+    'homebridge-multiple-switch',
+    'MultipleSwitchAccessory',
+    MultipleSwitchAccessory
+  );
 };
 
 class MultipleSwitchAccessory {
-  constructor(log, config, api) {
+  constructor(log, config) {
     this.log = log;
     this.config = config;
-    this.name = config.name;
+    this.name = config.name || 'Multiple Switch';
     this.switches = config.switches || [];
-    this.mode = config.switchBehavior || "independent";
     this.services = [];
 
-    const uuid = UUIDGen.generate(this.name);
-    this.accessory = new Accessory(this.name, uuid);
-    this.switchStates = Array(this.switches.length).fill(false);
+    const infoService = new Service.AccessoryInformation()
+      .setCharacteristic(Characteristic.Manufacturer, 'Custom')
+      .setCharacteristic(Characteristic.Model, 'MultipleSwitch')
+      .setCharacteristic(Characteristic.SerialNumber, 'v1.0.0');
 
-    this.switches.forEach((sw, index) => {
-      const service = new Service.Outlet(sw.name, "switch_" + index);
+    this.services.push(infoService);
+
+    const serviceTypes = {
+      switch: Service.Switch,
+      outlet: Service.Outlet,
+      lightbulb: Service.Lightbulb,
+      fan: Service.Fan
+    };
+
+    this.switches.forEach((conf, index) => {
+      const switchName = conf.name || `Switch ${index + 1}`;
+      const type = (conf.type || 'outlet').toLowerCase();
+      const ServiceClass = serviceTypes[type];
+
+      if (!ServiceClass) {
+        this.log.warn(`"${switchName}" üçün tanınmayan növ: "${type}". Default olaraq Outlet istifadə olunur.`);
+        return;
+      }
+
+      conf.state = conf.defaultState === true;
+
+      const service = new ServiceClass(switchName, `subtype-${index}`);
+
       service
         .getCharacteristic(Characteristic.On)
-        .onGet(() => this.switchStates[index])
-        .onSet((value) => this.setState(index, value));
-      this.accessory.addService(service);
+        .on('get', (callback) => {
+          callback(null, conf.state);
+        })
+        .on('set', (value, callback) => {
+          conf.state = value;
+          this.log(`"${switchName}" vəziyyəti dəyişdi: ${value}`);
+
+          if (value && conf.delayOff && conf.delayOff > 0) {
+            setTimeout(() => {
+              conf.state = false;
+              service.getCharacteristic(Characteristic.On).updateValue(false);
+              this.log(`"${switchName}" auto turn off tətbiq olundu`);
+            }, conf.delayOff); // saniyəni ms-ə çeviririk
+          }
+
+          callback();
+        });
+
       this.services.push(service);
-    });
-
-    if (this.mode === "master") {
-      const master = new Service.Outlet("Master", "master");
-      master
-        .getCharacteristic(Characteristic.On)
-        .onGet(() => this.switchStates.every((s) => s))
-        .onSet((value) => this.setAll(value));
-      this.accessory.addService(master);
-      this.services.unshift(master);
-    }
-  }
-
-  setState(index, value) {
-    if (this.mode === "single" && value) {
-      this.switchStates = this.switchStates.map((_, i) => i === index);
-    } else {
-      this.switchStates[index] = value;
-    }
-    this.updateStates();
-  }
-
-  setAll(value) {
-    this.switchStates = this.switchStates.map(() => value);
-    this.updateStates();
-  }
-
-  updateStates() {
-    this.switches.forEach((_, i) => {
-      this.services
-        .find((s) => s.subtype === "switch_" + i)
-        ?.getCharacteristic(Characteristic.On)
-        .updateValue(this.switchStates[i]);
     });
   }
 
   getServices() {
-    return [this.accessory.getService(Service.AccessoryInformation), ...this.accessory.services];
+    return this.services;
   }
 }

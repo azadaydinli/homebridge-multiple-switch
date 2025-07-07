@@ -1,6 +1,7 @@
 {
   "pluginAlias": "MultipleSwitchAccessory",
   "pluginType": "accessory",
+  "singular": false,
   "headerDisplay": "Multiple Switch Accessory",
   "schema": {
     "type": "object",
@@ -15,9 +16,24 @@
         "type": "string",
         "default": "independent",
         "oneOf": [
-          { "title": "Independent", "enum": ["independent"] },
-          { "title": "Master", "enum": ["master"] },
-          { "title": "Single", "enum": ["single"] }
+          {
+            "title": "Independent",
+            "enum": [
+              "independent"
+            ]
+          },
+          {
+            "title": "Master",
+            "enum": [
+              "master"
+            ]
+          },
+          {
+            "title": "Single",
+            "enum": [
+              "single"
+            ]
+          }
         ]
       },
       "switches": {
@@ -29,13 +45,68 @@
             "name": {
               "title": "Switch Name",
               "type": "string"
+            },
+            "type": {
+              "title": "Switch Type",
+              "type": "string",
+              "default": "outlet",
+              "oneOf": [
+                {
+                  "title": "Switch",
+                  "enum": [
+                    "switch"
+                  ]
+                },
+                {
+                  "title": "Outlet",
+                  "enum": [
+                    "outlet"
+                  ]
+                },
+                {
+                  "title": "Lightbulb",
+                  "enum": [
+                    "lightbulb"
+                  ]
+                },
+                {
+                  "title": "Fan",
+                  "enum": [
+                    "fan"
+                  ]
+                }
+              ]
+            },
+            "defaultState": {
+              "title": "Default State",
+              "type": "boolean",
+              "default": false
+            },
+            "delayOff": {
+              "title": "Auto Turn Off (ms)",
+              "type": "number",
+              "default": 0,
+              "minimum": 0
             }
           },
-          "required": ["name"]
+          "required": [
+            "name",
+            "type"
+          ]
         },
-        "default": [{ "name": "Switch 1" }]
+        "default": [
+          {
+            "name": "Switch 1",
+            "type": "outlet",
+            "defaultState": false,
+            "delayOff": 0
+          }
+        ]
       }
     },
-    "required": ["name", "switches"]
+    "required": [
+      "name",
+      "switches"
+    ]
   }
 }
