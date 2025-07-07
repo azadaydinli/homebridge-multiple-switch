@@ -1,17 +1,34 @@
-# Homebridge Multiple Switch Plugin
+# homebridge-multiple-switch
 
-## Overview
-The **Homebridge Multiple Switch** plugin allows you to create and manage multiple virtual switches within the HomeKit environment. This plugin is ideal for users who want to control multiple devices or scenarios using a single accessory with multiple switch options.
+[![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
+[![GitHub issues](https://img.shields.io/github/issues/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/issues)
+[![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
 
-## Features
-- **Multiple Switches**: Add, manage, and control multiple virtual switches under one accessory in HomeKit.
-- **Master Switch**: Optionally add a master switch that controls all other switches simultaneously.
-- **Customizable**: Easily configure the number of switches and their names through the Homebridge UI.
-- **Flexible**: Supports dynamic addition of switches, allowing for easy scaling to your needs.
+A lightweight Homebridge plugin that lets you create multiple customizable dummy switches (Outlet/Fan/Light/Switch) with different behavior modes including Independent, Master, and Single-Switch Mode.
 
-## Installation
-1. Ensure you have [Homebridge](https://homebridge.io) installed and running.
-2. Install the plugin via Homebridge or npm:
-   ```bash
-   npm install -g homebridge-multiple-switch
-3. Configure the plugin through the Homebridge UI or manually edit your config.json.
+---
+
+## ✨ Features
+
+- Multiple switches in a single accessory
+- Each switch can be `switch`, `outlet`, `lightbulb`, or `fan`
+- **Independent Mode** – all switches work separately
+- **Master Mode** – adds a master switch that controls all other switches
+- **Single Mode** – only one switch can be on at any time
+- Auto turn-off (in milliseconds)
+- Works seamlessly with HomeKit and Siri
+
+---
+
+## 📦 Installation
+
+Install the plugin via the Homebridge UI:
+
+1. Go to **Plugins**
+2. Search for `homebridge-multiple-switch`
+3. Click **Install**
+
+Or use the command line:
+
+```bash
+npm install -g homebridge-multiple-switch
