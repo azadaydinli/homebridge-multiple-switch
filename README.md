@@ -32,3 +32,39 @@ Or use the command line:
 
 ```bash
 npm install -g homebridge-multiple-switch
+```
+
+---
+
+## ⚙️ Configuration
+
+You can configure the plugin directly via the Homebridge UI, or manually in config.json:
+
+```bash
+{
+  "accessory": "MultipleSwitchAccessory",
+  "name": "My Multi Switch",
+  "switchCount": 3,
+  "type": "outlet",
+  "mode": "independent",
+  "autoTurnOff": 1000,
+  "defaultState": false,
+  "states": [
+    { "type": "switch", "autoTurnOff": 3000 },
+    { "type": "fan" },
+    { "type": "lightbulb", "defaultState": true }
+  ]
+}
+```
+
+### 🔧 Configuration Options
+
+| Field         | Type    | Required | Description                                                                 |
+|---------------|---------|----------|-----------------------------------------------------------------------------|
+| `name`        | string  | ✅       | Name of the accessory                                                       |
+| `switchCount` | number  | ✅       | Number of switches to create (max depends on HomeKit limits)               |
+| `type`        | string  | ❌       | Default type: `switch`, `outlet`, `lightbulb`, or `fan`                    |
+| `mode`        | string  | ❌       | `independent`, `master`, or `single`                                       |
+| `autoTurnOff` | number  | ❌       | Global auto-off in milliseconds                                            |
+| `defaultState`| boolean | ❌       | Default on/off state on restart                                            |
+| `states`      | array   | ❌       | Per-switch custom settings (overrides global config)                       |
