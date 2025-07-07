@@ -7,7 +7,7 @@ module.exports = (api) => {
   Characteristic = api.hap.Characteristic;
   UUIDGen = api.hap.uuid;
 
-  api.registerPlatform('MultipleSwitchPlatform', MultipleSwitchPlatform);
+  api.registerPlatform('homebridge-multiple-switch', 'MultipleSwitchPlatform', MultipleSwitchPlatform);
 };
 
 class MultipleSwitchPlatform {
@@ -27,29 +27,57 @@ class MultipleSwitchPlatform {
     const switches = this.config.switches || [];
     const behavior = this.config.switchBehavior || 'independent';
     const name = this.config.name || 'Multiple Switch Panel';
-
+    
     const uuid = UUIDGen.generate(name);
-    const accessory = new this.api.platformAccessory(name, uuid);
+    let accessory = this.accessories.find(acc => acc.UUID === uuid);
 
-    accessory.context.switchStates = {};
-    accessory.context.switchServices = {};
-    accessory.context.switchBehavior = behavior;
+    if (!accessory) {
+      this.log('Creating new accessory:', name);
+      accessory = new this.api.platformAccessory(name, uuid);
+      
+      // Initialize context for NEW accessories only
+      accessory.context.switchStates = {};
+      accessory.context.switchServices = {};
+      accessory.context.switchBehavior = behavior;
+      
+      this.api.registerPlatformAccessories(
+        'homebridge-multiple-switch',
+        'MultipleSwitchPlatform',
+        [accessory]
+      );
+      this.accessories.push(accessory);
+    } else {
+      this.log('Reusing existing accessory:', name);
+      
+      // Preserve existing state and behavior
+      accessory.context.switchStates = accessory.context.switchStates || {};
+      accessory.context.switchBehavior = behavior; // Update behavior from config
+      
+      // Clear old services
+      const servicesToRemove = accessory.services.filter(
+        service => service.UUID !== Service.AccessoryInformation.UUID
+      );
+      servicesToRemove.forEach(service => {
+        accessory.removeService(service);
+      });
+      
+      // Reset switchServices since we're recreating them
+      accessory.context.switchServices = {};
+    }
 
     switches.forEach((sw, index) => {
       const id = `switch_${index}`;
       const service = this.createSwitchService(accessory, sw, id);
-
+      
       accessory.addService(service);
-      accessory.context.switchStates[id] = sw.defaultState || false;
+      
+      // Preserve existing state, or use default for new switches
+      if (accessory.context.switchStates[id] === undefined) {
+        accessory.context.switchStates[id] = sw.defaultState || false;
+      }
+      
       accessory.context.switchServices[id] = service;
     });
-
-    this.api.registerPlatformAccessories(
-      'homebridge-multiple-switch',
-      'MultipleSwitchPlatform',
-      [accessory]
-    );
-    this.accessories.push(accessory);
   }
 
   createSwitchService(accessory, sw, id) {
