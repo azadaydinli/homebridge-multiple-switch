@@ -1,5 +1,8 @@
 # homebridge-multiple-switch
 
+![CI](https://github.com/azadaydinli/homebridge-multiple-switch/actions/workflows/ci.yml/badge.svg)
+![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)
+[Changelog](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/CHANGELOG.md)
 [![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![GitHub issues](https://img.shields.io/github/issues/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/issues)
 [![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
