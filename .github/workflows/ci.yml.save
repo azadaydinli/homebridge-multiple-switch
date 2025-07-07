@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Repo-nu klonla
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Node.js qur
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📦 Asılılıqları qur
+        run: npm install
+
+      - name: ✅ Kod yoxlaması (lint varsa)
+        run: |
+          if [ -f .eslintrc.js ] || [ -f .eslintrc.json ]; then
+            npm run lint
+          else
+            echo "Lint skripti tapılmadı, keçilir..."
+          fi
+
+      - name: 🧪 Testləri icra et (əgər varsa)
+        run: |
+          if [ -f package.json ] && grep -q '\"test\"' package.json; then
+            npm test
+          else
+            echo "Test skripti yoxdur, keçilir..."
+          fi
+

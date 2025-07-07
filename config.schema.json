@@ -1,39 +1,23 @@
 {
-  "pluginAlias": "MultipleSwitchAccessory",
-  "pluginType": "accessory",
-  "singular": false,
-  "headerDisplay": "Multiple Switch Accessory",
+  "pluginAlias": "MultipleSwitchPlatform",
+  "pluginType": "platform",
+  "headerDisplay": "Multiple Switch Platform",
   "schema": {
     "type": "object",
     "properties": {
       "name": {
-        "title": "Accessory Name",
+        "title": "Platform Name",
         "type": "string",
-        "default": "Multiple Switch"
+        "default": "Multiple Switch Platform"
       },
       "switchBehavior": {
         "title": "Switch Behavior Mode",
         "type": "string",
         "default": "independent",
         "oneOf": [
-          {
-            "title": "Independent",
-            "enum": [
-              "independent"
-            ]
-          },
-          {
-            "title": "Master",
-            "enum": [
-              "master"
-            ]
-          },
-          {
-            "title": "Single",
-            "enum": [
-              "single"
-            ]
-          }
+          { "title": "Independent", "enum": ["independent"] },
+          { "title": "Master", "enum": ["master"] },
+          { "title": "Single", "enum": ["single"] }
         ]
       },
       "switches": {
@@ -51,30 +35,10 @@
               "type": "string",
               "default": "outlet",
               "oneOf": [
-                {
-                  "title": "Switch",
-                  "enum": [
-                    "switch"
-                  ]
-                },
-                {
-                  "title": "Outlet",
-                  "enum": [
-                    "outlet"
-                  ]
-                },
-                {
-                  "title": "Lightbulb",
-                  "enum": [
-                    "lightbulb"
-                  ]
-                },
-                {
-                  "title": "Fan",
-                  "enum": [
-                    "fan"
-                  ]
-                }
+                { "title": "Switch", "enum": ["switch"] },
+                { "title": "Outlet", "enum": ["outlet"] },
+                { "title": "Lightbulb", "enum": ["lightbulb"] },
+                { "title": "Fan", "enum": ["fan"] }
               ]
             },
             "defaultState": {
@@ -89,10 +53,7 @@
               "minimum": 0
             }
           },
-          "required": [
-            "name",
-            "type"
-          ]
+          "required": ["name", "type"]
         },
         "default": [
           {
@@ -104,9 +65,6 @@
         ]
       }
     },
-    "required": [
-      "name",
-      "switches"
-    ]
+    "required": ["name", "switches"]
   }
 }
