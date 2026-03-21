@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0-beta.3] - 2026-03-21
+
+### Fixed
+- Switch names now display correctly in HomeKit using `ConfiguredName`
+  characteristic (previously all showed the device name)
+- Master switch now always appears first in HomeKit (created before regular switches)
+
 ## [1.6.0-beta.2] - 2026-03-21
 
 ### Fixed
