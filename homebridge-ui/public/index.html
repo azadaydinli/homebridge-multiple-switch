@@ -1,0 +1,187 @@
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; }
+  .form-group { margin-bottom: 16px; }
+  label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; }
+  .desc { color: #666; font-size: 12px; margin-bottom: 6px; }
+  input[type="text"], input[type="number"], select {
+    width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
+    font-size: 14px; background: #fff; transition: border-color 0.2s;
+  }
+  input:focus, select:focus { border-color: #007bff; outline: none; }
+  .switch-card {
+    border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 12px;
+    background: #fafafa; position: relative;
+  }
+  .switch-card .switch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .switch-card .switch-header strong { font-size: 14px; }
+  .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+  .btn-danger { background: #dc3545; color: #fff; }
+  .btn-danger:hover { background: #c82333; }
+  .btn-primary { background: #007bff; color: #fff; }
+  .btn-primary:hover { background: #0069d9; }
+  .btn-success { background: #28a745; color: #fff; }
+  .btn-success:hover { background: #218838; }
+  .actions { margin-top: 16px; display: flex; gap: 10px; }
+  h4 { margin-bottom: 8px; }
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+  .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; }
+  .section-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+  .inline-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style>
+
+<div id="app"></div>
+
+<script>
+(async () => {
+  let t = {};
+
+  async function loadTranslations() {
+    let lang = 'en';
+    try { lang = await homebridge.i18nCurrentLang(); } catch {}
+    const tryLangs = [lang, lang.split('-')[0], 'en'];
+    for (const l of tryLangs) {
+      try {
+        const res = await fetch(`./i18n/${l}.json`);
+        if (res.ok) { t = await res.json(); return; }
+      } catch {}
+    }
+    try {
+      const res = await fetch('./i18n/en.json');
+      t = await res.json();
+    } catch {}
+  }
+
+  await loadTranslations();
+
+  let config = {};
+  try {
+    const configs = await homebridge.getPluginConfig();
+    config = configs[0] || {};
+  } catch {}
+
+  const app = document.getElementById('app');
+
+  function render() {
+    const switches = config.switches || [];
+    app.innerHTML = `
+      <div class="form-group">
+        <label>${t.platformName || 'Platform Name'}</label>
+        <div class="desc">${t.platformNameDesc || ''}</div>
+        <input type="text" id="cfg-name" value="${esc(config.name || 'Multiple Switch Platform')}">
+      </div>
+
+      <div class="form-group">
+        <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
+        <div class="desc">${t.switchBehaviorDesc || ''}</div>
+        <select id="cfg-behavior">
+          <option value="independent" ${config.switchBehavior === 'independent' || !config.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
+          <option value="master" ${config.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
+          <option value="single" ${config.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
+        </select>
+      </div>
+
+      <div class="section-title">${t.switches || 'Switches'}</div>
+      <div class="desc" style="margin-bottom:12px">${t.switchesDesc || ''}</div>
+
+      <div id="switches-list">
+        ${switches.map((sw, i) => renderSwitch(sw, i)).join('')}
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-add">+ ${t.addSwitch || 'Add Switch'}</button>
+      </div>
+    `;
+
+    document.getElementById('cfg-name').addEventListener('change', (e) => {
+      config.name = e.target.value;
+      save();
+    });
+    document.getElementById('cfg-behavior').addEventListener('change', (e) => {
+      config.switchBehavior = e.target.value;
+      save();
+    });
+    document.getElementById('btn-add').addEventListener('click', () => {
+      if (!config.switches) config.switches = [];
+      config.switches.push({ name: '', type: 'outlet', defaultState: false, delayOff: 0 });
+      render();
+      save();
+    });
+
+    document.querySelectorAll('.btn-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        config.switches.splice(idx, 1);
+        render();
+        save();
+      });
+    });
+
+    document.querySelectorAll('.sw-field').forEach(input => {
+      input.addEventListener('change', () => {
+        const idx = parseInt(input.dataset.idx);
+        const field = input.dataset.field;
+        if (field === 'defaultState') {
+          config.switches[idx][field] = input.checked;
+        } else if (field === 'delayOff') {
+          config.switches[idx][field] = parseInt(input.value) || 0;
+        } else {
+          config.switches[idx][field] = input.value;
+        }
+        save();
+      });
+    });
+  }
+
+  function renderSwitch(sw, i) {
+    return `
+      <div class="switch-card">
+        <div class="switch-header">
+          <strong>#${i + 1}</strong>
+          <button class="btn btn-danger btn-remove" data-idx="${i}">${t.removeSwitch || 'Remove'}</button>
+        </div>
+        <div class="inline-row">
+          <div class="form-group">
+            <label>${t.switchName || 'Switch Name'}</label>
+            <input type="text" class="sw-field" data-idx="${i}" data-field="name" value="${esc(sw.name || '')}">
+          </div>
+          <div class="form-group">
+            <label>${t.switchType || 'Switch Type'}</label>
+            <select class="sw-field" data-idx="${i}" data-field="type">
+              <option value="switch" ${sw.type === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
+              <option value="outlet" ${sw.type === 'outlet' || !sw.type ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
+              <option value="lightbulb" ${sw.type === 'lightbulb' ? 'selected' : ''}>${t.typeLightbulb || 'Lightbulb'}</option>
+              <option value="fan" ${sw.type === 'fan' ? 'selected' : ''}>${t.typeFan || 'Fan'}</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline-row">
+          <div class="form-group">
+            <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
+            <input type="number" class="sw-field" data-idx="${i}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
+          </div>
+          <div class="form-group">
+            <label>${t.defaultState || 'Default State'}</label>
+            <div class="toggle-wrap" style="margin-top:6px">
+              <input type="checkbox" class="sw-field" data-idx="${i}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
+              <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML.replace(/"/g, '&quot;');
+  }
+
+  async function save() {
+    await homebridge.updatePluginConfig([config]);
+  }
+
+  render();
+})();
+</script>

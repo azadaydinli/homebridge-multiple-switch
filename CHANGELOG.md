@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.2] - 2026-03-21
+
+### Changed
+- Replaced static i18n folder with Custom UI (`homebridge-ui/public/`) using
+  `homebridge.i18nCurrentLang()` for proper language detection
+- Plugin config UI now renders a fully localized form that matches the
+  Homebridge UI language setting
+
+### Fixed
+- i18n translations not being applied (Homebridge does not support automatic
+  schema-level i18n; Custom UI is required)
+
 ## [1.3.1] - 2026-03-21
 
 ### Added

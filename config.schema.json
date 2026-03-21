@@ -1,6 +1,7 @@
 {
   "pluginAlias": "MultipleSwitchPlatform",
   "pluginType": "platform",
+  "customUi": true,
   "headerDisplay": "Multiple Switch Platform",
   "schema": {
     "type": "object",
