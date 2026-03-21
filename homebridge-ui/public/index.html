@@ -1,33 +1,65 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--bs-body-color, inherit);
+  }
   .form-group { margin-bottom: 16px; }
-  label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px; }
-  .desc { color: #666; font-size: 12px; margin-bottom: 6px; }
+  label {
+    display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px;
+    color: var(--bs-body-color, inherit);
+  }
+  .desc {
+    color: var(--bs-secondary-color, #888);
+    font-size: 12px; margin-bottom: 6px;
+  }
   input[type="text"], input[type="number"], select {
-    width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px;
-    font-size: 14px; background: #fff; transition: border-color 0.2s;
+    width: 100%; padding: 8px 10px;
+    border: 1px solid var(--bs-border-color, #444);
+    border-radius: 6px; font-size: 14px;
+    background: var(--bs-body-bg, transparent);
+    color: var(--bs-body-color, inherit);
+    transition: border-color 0.2s;
   }
-  input:focus, select:focus { border-color: #007bff; outline: none; }
+  input:focus, select:focus {
+    border-color: var(--bs-primary, #007bff);
+    outline: none;
+  }
   .switch-card {
-    border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 12px;
-    background: #fafafa; position: relative;
+    border: 1px solid var(--bs-border-color, #444);
+    border-radius: 8px; padding: 16px; margin-bottom: 12px;
+    background: var(--bs-tertiary-bg, rgba(128,128,128,0.08));
+    position: relative;
   }
-  .switch-card .switch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .switch-card .switch-header strong { font-size: 14px; }
-  .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+  .switch-card .switch-header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+  }
+  .switch-card .switch-header strong {
+    font-size: 14px;
+    color: var(--bs-body-color, inherit);
+  }
+  .btn {
+    padding: 8px 16px; border: none; border-radius: 6px;
+    cursor: pointer; font-size: 13px; font-weight: 600;
+  }
   .btn-danger { background: #dc3545; color: #fff; }
   .btn-danger:hover { background: #c82333; }
-  .btn-primary { background: #007bff; color: #fff; }
-  .btn-primary:hover { background: #0069d9; }
-  .btn-success { background: #28a745; color: #fff; }
-  .btn-success:hover { background: #218838; }
+  .btn-primary { background: var(--bs-primary, #007bff); color: #fff; }
+  .btn-primary:hover { opacity: 0.85; }
   .actions { margin-top: 16px; display: flex; gap: 10px; }
-  h4 { margin-bottom: 8px; }
   .toggle-wrap { display: flex; align-items: center; gap: 8px; }
-  .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; }
-  .section-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+  .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--bs-primary, #007bff); }
+  .toggle-wrap span { color: var(--bs-body-color, inherit); }
+  .section-title {
+    font-size: 15px; font-weight: 700; margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--bs-border-color, #444);
+    color: var(--bs-body-color, inherit);
+  }
   .inline-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  select option {
+    background: var(--bs-body-bg, #fff);
+    color: var(--bs-body-color, #000);
+  }
 </style>
 
 <div id="app"></div>

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3] - 2026-03-21
+
+### Fixed
+- Custom UI light/dark mode support: all labels, inputs, cards, and borders
+  now use Homebridge Bootstrap CSS variables (`--bs-body-color`, `--bs-body-bg`,
+  `--bs-border-color`, `--bs-tertiary-bg`) for proper theme adaptation
+
 ## [1.3.2] - 2026-03-21
 
 ### Changed
