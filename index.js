@@ -5,8 +5,6 @@ const PLATFORM_NAME = 'MultipleSwitchPlatform';
 
 const SERVICE_TYPES = {
   switch: 'Switch',
-  lightbulb: 'Lightbulb',
-  fan: 'Fan',
   outlet: 'Outlet',
 };
 

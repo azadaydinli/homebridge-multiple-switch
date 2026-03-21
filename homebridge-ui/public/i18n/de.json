@@ -15,8 +15,6 @@
   "switchTypeDesc": "Der HomeKit-Zubehörtyp für diesen Schalter.",
   "typeSwitch": "Schalter",
   "typeOutlet": "Steckdose",
-  "typeLightbulb": "Glühbirne",
-  "typeFan": "Ventilator",
   "defaultState": "Standardzustand",
   "defaultStateDesc": "Anfänglicher Energiezustand beim Start von Homebridge.",
   "delayOff": "Automatisch ausschalten (ms)",

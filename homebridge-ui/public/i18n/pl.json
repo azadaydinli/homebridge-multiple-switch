@@ -15,8 +15,6 @@
   "switchTypeDesc": "Typ akcesorium HomeKit dla tego przełącznika.",
   "typeSwitch": "Przełącznik",
   "typeOutlet": "Gniazdko",
-  "typeLightbulb": "Żarówka",
-  "typeFan": "Wentylator",
   "defaultState": "Stan domyślny",
   "defaultStateDesc": "Początkowy stan zasilania przy uruchomieniu Homebridge.",
   "delayOff": "Automatyczne wyłączenie (ms)",

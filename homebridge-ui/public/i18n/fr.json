@@ -15,8 +15,6 @@
   "switchTypeDesc": "Le type d'accessoire HomeKit pour cet interrupteur.",
   "typeSwitch": "Interrupteur",
   "typeOutlet": "Prise",
-  "typeLightbulb": "Ampoule",
-  "typeFan": "Ventilateur",
   "defaultState": "État par défaut",
   "defaultStateDesc": "État d'alimentation initial au démarrage de Homebridge.",
   "delayOff": "Arrêt automatique (ms)",

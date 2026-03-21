@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0] - 2026-03-21
+
+### Removed
+- Lightbulb and Fan switch types (HomeKit natively converts switches to these)
+
+### Fixed
+- Custom UI white background in dark mode — set `background: transparent !important`
+  on html/body so the iframe inherits the Homebridge theme
+
 ## [1.3.3] - 2026-03-21
 
 ### Fixed

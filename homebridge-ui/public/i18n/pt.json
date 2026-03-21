@@ -15,8 +15,6 @@
   "switchTypeDesc": "O tipo de acessório HomeKit para este interruptor.",
   "typeSwitch": "Interruptor",
   "typeOutlet": "Tomada",
-  "typeLightbulb": "Lâmpada",
-  "typeFan": "Ventilador",
   "defaultState": "Estado padrão",
   "defaultStateDesc": "Estado de energia inicial quando o Homebridge inicia.",
   "delayOff": "Desligamento automático (ms)",

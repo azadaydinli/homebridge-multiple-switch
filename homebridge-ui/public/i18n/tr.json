@@ -15,8 +15,6 @@
   "switchTypeDesc": "Bu anahtar için HomeKit aksesuar tipi.",
   "typeSwitch": "Anahtar",
   "typeOutlet": "Priz",
-  "typeLightbulb": "Ampul",
-  "typeFan": "Vantilatör",
   "defaultState": "Varsayılan Durum",
   "defaultStateDesc": "Homebridge başladığında başlangıç güç durumu.",
   "delayOff": "Otomatik Kapanma (ms)",

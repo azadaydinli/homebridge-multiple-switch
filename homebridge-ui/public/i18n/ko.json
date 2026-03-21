@@ -15,8 +15,6 @@
   "switchTypeDesc": "이 스위치의 HomeKit 액세서리 유형.",
   "typeSwitch": "스위치",
   "typeOutlet": "콘센트",
-  "typeLightbulb": "전구",
-  "typeFan": "팬",
   "defaultState": "기본 상태",
   "defaultStateDesc": "Homebridge 시작 시 초기 전원 상태.",
   "delayOff": "자동 꺼짐 (ms)",

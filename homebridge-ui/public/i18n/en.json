@@ -15,8 +15,6 @@
   "switchTypeDesc": "The HomeKit accessory type for this switch.",
   "typeSwitch": "Switch",
   "typeOutlet": "Outlet",
-  "typeLightbulb": "Lightbulb",
-  "typeFan": "Fan",
   "defaultState": "Default State",
   "defaultStateDesc": "Initial power state when Homebridge starts.",
   "delayOff": "Auto Turn Off (ms)",

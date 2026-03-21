@@ -15,8 +15,6 @@
   "switchTypeDesc": "このスイッチの HomeKit アクセサリタイプ。",
   "typeSwitch": "スイッチ",
   "typeOutlet": "コンセント",
-  "typeLightbulb": "電球",
-  "typeFan": "ファン",
   "defaultState": "デフォルト状態",
   "defaultStateDesc": "Homebridge 起動時の初期電源状態。",
   "delayOff": "自動オフ（ミリ秒）",

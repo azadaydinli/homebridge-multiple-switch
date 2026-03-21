@@ -1,8 +1,9 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
+  html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--bs-body-color, inherit);
+    background: transparent !important;
   }
   .form-group { margin-bottom: 16px; }
   label {
@@ -182,8 +183,6 @@
             <select class="sw-field" data-idx="${i}" data-field="type">
               <option value="switch" ${sw.type === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
               <option value="outlet" ${sw.type === 'outlet' || !sw.type ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
-              <option value="lightbulb" ${sw.type === 'lightbulb' ? 'selected' : ''}>${t.typeLightbulb || 'Lightbulb'}</option>
-              <option value="fan" ${sw.type === 'fan' ? 'selected' : ''}>${t.typeFan || 'Fan'}</option>
             </select>
           </div>
         </div>

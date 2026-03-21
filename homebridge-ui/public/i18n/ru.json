@@ -15,8 +15,6 @@
   "switchTypeDesc": "Тип аксессуара HomeKit для этого переключателя.",
   "typeSwitch": "Выключатель",
   "typeOutlet": "Розетка",
-  "typeLightbulb": "Лампочка",
-  "typeFan": "Вентилятор",
   "defaultState": "Состояние по умолчанию",
   "defaultStateDesc": "Начальное состояние питания при запуске Homebridge.",
   "delayOff": "Автоматическое выключение (мс)",

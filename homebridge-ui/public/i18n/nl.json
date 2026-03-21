@@ -15,8 +15,6 @@
   "switchTypeDesc": "Het HomeKit-accessoiretype voor deze schakelaar.",
   "typeSwitch": "Schakelaar",
   "typeOutlet": "Stopcontact",
-  "typeLightbulb": "Gloeilamp",
-  "typeFan": "Ventilator",
   "defaultState": "Standaardstatus",
   "defaultStateDesc": "Initiële voedingsstatus wanneer Homebridge opstart.",
   "delayOff": "Automatisch uitschakelen (ms)",

@@ -42,9 +42,7 @@
               "default": "outlet",
               "oneOf": [
                 { "title": "Switch", "enum": ["switch"] },
-                { "title": "Outlet", "enum": ["outlet"] },
-                { "title": "Lightbulb", "enum": ["lightbulb"] },
-                { "title": "Fan", "enum": ["fan"] }
+                { "title": "Outlet", "enum": ["outlet"] }
               ]
             },
             "defaultState": {

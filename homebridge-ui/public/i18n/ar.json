@@ -15,8 +15,6 @@
   "switchTypeDesc": "نوع ملحق HomeKit لهذا المفتاح.",
   "typeSwitch": "مفتاح",
   "typeOutlet": "مقبس",
-  "typeLightbulb": "مصباح",
-  "typeFan": "مروحة",
   "defaultState": "الحالة الافتراضية",
   "defaultStateDesc": "حالة الطاقة الأولية عند بدء تشغيل Homebridge.",
   "delayOff": "إيقاف تلقائي (مللي ثانية)",

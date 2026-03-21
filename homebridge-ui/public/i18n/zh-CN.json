@@ -15,8 +15,6 @@
   "switchTypeDesc": "此开关的 HomeKit 配件类型。",
   "typeSwitch": "开关",
   "typeOutlet": "插座",
-  "typeLightbulb": "灯泡",
-  "typeFan": "风扇",
   "defaultState": "默认状态",
   "defaultStateDesc": "Homebridge 启动时的初始电源状态。",
   "delayOff": "自动关闭（毫秒）",
