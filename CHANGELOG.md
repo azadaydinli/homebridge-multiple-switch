@@ -2,11 +2,8 @@
 
 ## [1.6.0-beta.6] - 2026-03-21
 
-### Fixed
-- Behavior mode select now matches device name width (description moved below both
-  columns instead of inside the narrow select column)
+### Changed
 - Master switch type now defaults to Switch instead of Outlet (both UI and backend)
-- Default state checkbox now vertically centered with the auto turn off input field
 
 ## [1.6.0-beta.5] - 2026-03-21
 
