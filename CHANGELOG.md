@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.6.0-beta.6] - 2026-03-21
+## [1.6.0-beta.7] - 2026-03-21
 
 ### Changed
 - Master switch type now defaults to Switch instead of Outlet (both UI and backend)
