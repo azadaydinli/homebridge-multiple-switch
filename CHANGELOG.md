@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1] - 2026-03-21
+
+### Added
+- Collapsible device cards — click the device header to expand/collapse
+- Collapsible switch cards — click the switch header to expand/collapse
+- Summary info shown when collapsed (switch count for devices, type/delay for switches)
+- Chevron indicator (▶) with rotation animation for open/closed state
+
 ## [1.5.0] - 2026-03-21
 
 ### Added

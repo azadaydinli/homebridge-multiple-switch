@@ -52,29 +52,58 @@
   }
   .device-card {
     border: 2px solid var(--ui-device-border);
-    border-radius: 10px; padding: 20px; margin-bottom: 20px;
+    border-radius: 10px; margin-bottom: 20px;
     background: var(--ui-device-bg);
+    overflow: hidden;
   }
   .device-header {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px; padding-bottom: 10px;
-    border-bottom: 1px solid var(--ui-border);
+    padding: 14px 20px; cursor: pointer; user-select: none;
   }
-  .device-header strong {
+  .device-header:hover { opacity: 0.85; }
+  .device-header-left {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .device-header-left strong {
     font-size: 16px; color: var(--ui-accent);
   }
+  .device-header-left .chevron {
+    font-size: 12px; color: var(--ui-text-muted);
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .device-header-left .chevron.open { transform: rotate(90deg); }
+  .device-header-right { display: flex; align-items: center; gap: 8px; }
+  .device-body { padding: 0 20px 20px; }
+  .device-body.collapsed { display: none; }
   .switch-card {
     border: 1px solid var(--ui-border);
-    border-radius: 8px; padding: 16px; margin-bottom: 12px;
+    border-radius: 8px; margin-bottom: 12px;
     background: var(--ui-card-bg);
-    position: relative;
+    position: relative; overflow: hidden;
   }
-  .switch-card .switch-header {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+  .switch-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; cursor: pointer; user-select: none;
   }
-  .switch-card .switch-header strong {
-    font-size: 14px;
-    color: var(--ui-text);
+  .switch-header:hover { opacity: 0.85; }
+  .switch-header-left {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .switch-header-left strong {
+    font-size: 14px; color: var(--ui-text);
+  }
+  .switch-header-left .chevron {
+    font-size: 11px; color: var(--ui-text-muted);
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  .switch-header-left .chevron.open { transform: rotate(90deg); }
+  .switch-header-right { display: flex; align-items: center; gap: 8px; }
+  .switch-body { padding: 0 16px 16px; }
+  .switch-body.collapsed { display: none; }
+  .switch-summary {
+    font-size: 12px; color: var(--ui-text-muted); margin-left: 4px;
   }
   .btn {
     padding: 8px 16px; border: none; border-radius: 6px;
@@ -82,6 +111,7 @@
   }
   .btn-danger { background: #dc3545; color: #fff; }
   .btn-danger:hover { background: #c82333; }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
   .btn-primary { background: var(--ui-accent); color: #fff; }
   .btn-primary:hover { opacity: 0.85; }
   .btn-outline {
@@ -150,6 +180,15 @@
     config.devices = [];
   }
 
+  // Track expand/collapse state
+  const expandedDevices = new Set(config.devices.map((_, i) => i));
+  const expandedSwitches = new Set();
+  config.devices.forEach((dev, di) => {
+    (dev.switches || []).forEach((_, si) => {
+      expandedSwitches.add(`${di}_${si}`);
+    });
+  });
+
   const app = document.getElementById('app');
 
   function render() {
@@ -178,13 +217,45 @@
     });
 
     document.getElementById('btn-add-device').addEventListener('click', () => {
+      const di = config.devices.length;
       config.devices.push({
         name: '',
         switchBehavior: 'independent',
         switches: [{ name: '', type: 'outlet', defaultState: false, delayOff: 0 }],
       });
+      expandedDevices.add(di);
+      expandedSwitches.add(`${di}_0`);
       render();
       save();
+    });
+
+    // Device toggle
+    document.querySelectorAll('.device-toggle').forEach(el => {
+      el.addEventListener('click', (e) => {
+        // Don't toggle if clicking a button inside header
+        if (e.target.closest('.btn')) return;
+        const di = parseInt(el.dataset.dev);
+        if (expandedDevices.has(di)) {
+          expandedDevices.delete(di);
+        } else {
+          expandedDevices.add(di);
+        }
+        render();
+      });
+    });
+
+    // Switch toggle
+    document.querySelectorAll('.switch-toggle').forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (e.target.closest('.btn')) return;
+        const key = `${el.dataset.dev}_${el.dataset.sw}`;
+        if (expandedSwitches.has(key)) {
+          expandedSwitches.delete(key);
+        } else {
+          expandedSwitches.add(key);
+        }
+        render();
+      });
     });
 
     // Device-level events
@@ -198,8 +269,12 @@
     });
 
     document.querySelectorAll('.btn-remove-device').forEach(btn => {
-      btn.addEventListener('click', () => {
-        config.devices.splice(parseInt(btn.dataset.dev), 1);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const di = parseInt(btn.dataset.dev);
+        config.devices.splice(di, 1);
+        // Rebuild expand state
+        rebuildExpandState();
         render();
         save();
       });
@@ -209,17 +284,21 @@
     document.querySelectorAll('.btn-add-switch').forEach(btn => {
       btn.addEventListener('click', () => {
         const di = parseInt(btn.dataset.dev);
+        const si = config.devices[di].switches.length;
         config.devices[di].switches.push({ name: '', type: 'outlet', defaultState: false, delayOff: 0 });
+        expandedSwitches.add(`${di}_${si}`);
         render();
         save();
       });
     });
 
     document.querySelectorAll('.btn-remove-switch').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const di = parseInt(btn.dataset.dev);
         const si = parseInt(btn.dataset.sw);
         config.devices[di].switches.splice(si, 1);
+        rebuildExpandState();
         render();
         save();
       });
@@ -242,69 +321,111 @@
     });
   }
 
+  function rebuildExpandState() {
+    // Keep devices that still exist expanded
+    const newDevices = new Set();
+    config.devices.forEach((_, i) => {
+      if (expandedDevices.has(i)) newDevices.add(i);
+    });
+    expandedDevices.clear();
+    newDevices.forEach(i => expandedDevices.add(i));
+
+    const newSwitches = new Set();
+    config.devices.forEach((dev, di) => {
+      (dev.switches || []).forEach((_, si) => {
+        if (expandedSwitches.has(`${di}_${si}`)) newSwitches.add(`${di}_${si}`);
+      });
+    });
+    expandedSwitches.clear();
+    newSwitches.forEach(k => expandedSwitches.add(k));
+  }
+
   function renderDevice(dev, di) {
     const switches = dev.switches || [];
+    const isOpen = expandedDevices.has(di);
+    const devLabel = dev.name || `${t.device || 'Device'} #${di + 1}`;
+    const switchCount = switches.length;
+
     return `
       <div class="device-card">
-        <div class="device-header">
-          <strong>${t.device || 'Device'} #${di + 1}</strong>
-          <button class="btn btn-danger btn-remove-device" data-dev="${di}">${t.removeDevice || 'Remove Device'}</button>
-        </div>
-
-        <div class="inline-row">
-          <div class="form-group">
-            <label>${t.deviceName || 'Device Name'}</label>
-            <input type="text" class="dev-field" data-dev="${di}" data-field="name" value="${esc(dev.name || '')}">
+        <div class="device-header device-toggle" data-dev="${di}">
+          <div class="device-header-left">
+            <span class="chevron ${isOpen ? 'open' : ''}">&#9654;</span>
+            <strong>${esc(devLabel)}</strong>
+            ${!isOpen ? `<span class="switch-summary">(${switchCount} ${switchCount === 1 ? (t.switchSingular || 'switch') : (t.switches || 'switches').toLowerCase()})</span>` : ''}
           </div>
-          <div class="form-group">
-            <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
-            <select class="dev-field" data-dev="${di}" data-field="switchBehavior">
-              <option value="independent" ${dev.switchBehavior === 'independent' || !dev.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
-              <option value="master" ${dev.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
-              <option value="single" ${dev.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
-            </select>
+          <div class="device-header-right">
+            <button class="btn btn-danger btn-sm btn-remove-device" data-dev="${di}">${t.removeDevice || 'Remove Device'}</button>
           </div>
         </div>
 
-        <div class="section-title">${t.switches || 'Switches'}</div>
+        <div class="device-body ${isOpen ? '' : 'collapsed'}">
+          <div class="inline-row">
+            <div class="form-group">
+              <label>${t.deviceName || 'Device Name'}</label>
+              <input type="text" class="dev-field" data-dev="${di}" data-field="name" value="${esc(dev.name || '')}">
+            </div>
+            <div class="form-group">
+              <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
+              <select class="dev-field" data-dev="${di}" data-field="switchBehavior">
+                <option value="independent" ${dev.switchBehavior === 'independent' || !dev.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
+                <option value="master" ${dev.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
+                <option value="single" ${dev.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
+              </select>
+            </div>
+          </div>
 
-        ${switches.map((sw, si) => renderSwitch(sw, di, si)).join('')}
+          <div class="section-title">${t.switches || 'Switches'}</div>
 
-        <button class="btn btn-primary btn-add-switch" data-dev="${di}">+ ${t.addSwitch || 'Add Switch'}</button>
+          ${switches.map((sw, si) => renderSwitch(sw, di, si)).join('')}
+
+          <button class="btn btn-primary btn-add-switch" data-dev="${di}">+ ${t.addSwitch || 'Add Switch'}</button>
+        </div>
       </div>
     `;
   }
 
   function renderSwitch(sw, di, si) {
+    const isOpen = expandedSwitches.has(`${di}_${si}`);
+    const swLabel = sw.name || `#${si + 1}`;
+
     return `
       <div class="switch-card">
-        <div class="switch-header">
-          <strong>#${si + 1}</strong>
-          <button class="btn btn-danger btn-remove-switch" data-dev="${di}" data-sw="${si}">${t.removeSwitch || 'Remove'}</button>
-        </div>
-        <div class="inline-row">
-          <div class="form-group">
-            <label>${t.switchName || 'Switch Name'}</label>
-            <input type="text" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="name" value="${esc(sw.name || '')}">
+        <div class="switch-header switch-toggle" data-dev="${di}" data-sw="${si}">
+          <div class="switch-header-left">
+            <span class="chevron ${isOpen ? 'open' : ''}">&#9654;</span>
+            <strong>${esc(swLabel)}</strong>
+            ${!isOpen ? `<span class="switch-summary">${sw.type || 'outlet'}${sw.delayOff ? ` / ${sw.delayOff}ms` : ''}</span>` : ''}
           </div>
-          <div class="form-group">
-            <label>${t.switchType || 'Switch Type'}</label>
-            <select class="sw-field" data-dev="${di}" data-sw="${si}" data-field="type">
-              <option value="switch" ${sw.type === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
-              <option value="outlet" ${sw.type === 'outlet' || !sw.type ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
-            </select>
+          <div class="switch-header-right">
+            <button class="btn btn-danger btn-sm btn-remove-switch" data-dev="${di}" data-sw="${si}">${t.removeSwitch || 'Remove'}</button>
           </div>
         </div>
-        <div class="inline-row">
-          <div class="form-group">
-            <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
-            <input type="number" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
+        <div class="switch-body ${isOpen ? '' : 'collapsed'}">
+          <div class="inline-row">
+            <div class="form-group">
+              <label>${t.switchName || 'Switch Name'}</label>
+              <input type="text" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="name" value="${esc(sw.name || '')}">
+            </div>
+            <div class="form-group">
+              <label>${t.switchType || 'Switch Type'}</label>
+              <select class="sw-field" data-dev="${di}" data-sw="${si}" data-field="type">
+                <option value="switch" ${sw.type === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
+                <option value="outlet" ${sw.type === 'outlet' || !sw.type ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label>${t.defaultState || 'Default State'}</label>
-            <div class="toggle-wrap" style="margin-top:6px">
-              <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
-              <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
+          <div class="inline-row">
+            <div class="form-group">
+              <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
+              <input type="number" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
+            </div>
+            <div class="form-group">
+              <label>${t.defaultState || 'Default State'}</label>
+              <div class="toggle-wrap" style="margin-top:6px">
+                <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
+                <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
+              </div>
             </div>
           </div>
         </div>
