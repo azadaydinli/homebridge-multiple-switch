@@ -5,7 +5,6 @@
   "switchBehavior": "Switch Behavior Mode",
   "switchBehaviorDesc": "Controls how switches interact with each other.",
   "behaviorIndependent": "Independent",
-  "behaviorMaster": "Master",
   "behaviorSingle": "Single",
   "switches": "Switches",
   "switchesDesc": "List of virtual switches to create.",
@@ -29,5 +28,10 @@
   "device": "Device",
   "deviceName": "Device Name",
   "addDevice": "Add Device",
-  "removeDevice": "Remove Device"
+  "removeDevice": "Remove Device",
+  "behaviorIndependentDesc": "Each switch works independently. Turning one on or off has no effect on the others.",
+  "behaviorSingleDesc": "Only one switch can be on at a time. Turning one on automatically turns off all others.",
+  "masterSwitch": "Master Switch",
+  "masterSwitchDesc": "Adds a master switch that turns all switches on or off at once.",
+  "switchSingular": "switch"
 }

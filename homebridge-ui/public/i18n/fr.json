@@ -5,7 +5,6 @@
   "switchBehavior": "Mode de comportement",
   "switchBehaviorDesc": "Contrôle la façon dont les interrupteurs interagissent entre eux.",
   "behaviorIndependent": "Indépendant",
-  "behaviorMaster": "Maître",
   "behaviorSingle": "Unique",
   "switches": "Interrupteurs",
   "switchesDesc": "Liste des interrupteurs virtuels à créer.",
@@ -29,5 +28,10 @@
   "device": "Appareil",
   "deviceName": "Nom de l'appareil",
   "addDevice": "Ajouter un appareil",
-  "removeDevice": "Supprimer l'appareil"
+  "removeDevice": "Supprimer l'appareil",
+  "behaviorIndependentDesc": "Chaque interrupteur fonctionne indépendamment. Activer ou désactiver l'un n'affecte pas les autres.",
+  "behaviorSingleDesc": "Un seul interrupteur peut être activé à la fois. En activer un désactive automatiquement tous les autres.",
+  "masterSwitch": "Interrupteur principal",
+  "masterSwitchDesc": "Ajoute un interrupteur principal qui active ou désactive tous les interrupteurs en une seule fois.",
+  "switchSingular": "interrupteur"
 }

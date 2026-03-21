@@ -5,7 +5,6 @@
   "switchBehavior": "スイッチ動作モード",
   "switchBehaviorDesc": "スイッチ同士の相互作用を制御します。",
   "behaviorIndependent": "独立",
-  "behaviorMaster": "マスター",
   "behaviorSingle": "シングル",
   "switches": "スイッチ",
   "switchesDesc": "作成する仮想スイッチのリスト。",
@@ -29,5 +28,10 @@
   "device": "デバイス",
   "deviceName": "デバイス名",
   "addDevice": "デバイスを追加",
-  "removeDevice": "デバイスを削除"
+  "removeDevice": "デバイスを削除",
+  "behaviorIndependentDesc": "各スイッチは独立して動作します。1つのオン/オフは他に影響しません。",
+  "behaviorSingleDesc": "同時に1つのスイッチのみオンにできます。1つをオンにすると他はすべて自動的にオフになります。",
+  "masterSwitch": "マスタースイッチ",
+  "masterSwitchDesc": "すべてのスイッチを一度にオン/オフするマスタースイッチを追加します。",
+  "switchSingular": "スイッチ"
 }

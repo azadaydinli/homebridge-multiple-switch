@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.0-beta.1] - 2026-03-21
+
+### Removed
+- Master switch behavior mode — replaced by a more useful master switch option
+  within Single mode
+
+### Changed
+- Switch behavior now only has two modes: Independent and Single
+- Added descriptions to both behavior modes explaining how they work
+
+### Added
+- Master Switch option (available in Single mode only): adds an extra switch
+  that turns all switches on or off at once
+- New i18n keys for behavior descriptions, master switch label/description
+
 ## [1.5.1] - 2026-03-21
 
 ### Added

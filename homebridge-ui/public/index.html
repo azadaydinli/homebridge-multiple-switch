@@ -133,6 +133,11 @@
     background: var(--ui-input-bg);
     color: var(--ui-text);
   }
+  .master-option {
+    margin-top: 12px; padding: 12px 14px;
+    border: 1px dashed var(--ui-border);
+    border-radius: 8px; background: var(--ui-card-bg);
+  }
 </style>
 
 <div id="app"></div>
@@ -232,7 +237,6 @@
     // Device toggle
     document.querySelectorAll('.device-toggle').forEach(el => {
       el.addEventListener('click', (e) => {
-        // Don't toggle if clicking a button inside header
         if (e.target.closest('.btn')) return;
         const di = parseInt(el.dataset.dev);
         if (expandedDevices.has(di)) {
@@ -264,6 +268,20 @@
         const di = parseInt(input.dataset.dev);
         const field = input.dataset.field;
         config.devices[di][field] = input.value;
+        // If switching away from single, disable masterSwitch
+        if (field === 'switchBehavior' && input.value !== 'single') {
+          delete config.devices[di].masterSwitch;
+        }
+        render();
+        save();
+      });
+    });
+
+    // Master switch toggle
+    document.querySelectorAll('.master-toggle').forEach(input => {
+      input.addEventListener('change', () => {
+        const di = parseInt(input.dataset.dev);
+        config.devices[di].masterSwitch = input.checked;
         save();
       });
     });
@@ -273,7 +291,6 @@
         e.stopPropagation();
         const di = parseInt(btn.dataset.dev);
         config.devices.splice(di, 1);
-        // Rebuild expand state
         rebuildExpandState();
         render();
         save();
@@ -322,7 +339,6 @@
   }
 
   function rebuildExpandState() {
-    // Keep devices that still exist expanded
     const newDevices = new Set();
     config.devices.forEach((_, i) => {
       if (expandedDevices.has(i)) newDevices.add(i);
@@ -345,6 +361,7 @@
     const isOpen = expandedDevices.has(di);
     const devLabel = dev.name || `${t.device || 'Device'} #${di + 1}`;
     const switchCount = switches.length;
+    const isSingle = dev.switchBehavior === 'single';
 
     return `
       <div class="device-card">
@@ -367,15 +384,27 @@
             </div>
             <div class="form-group">
               <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
+              <div class="desc">${isSingle ? (t.behaviorSingleDesc || '') : (t.behaviorIndependentDesc || '')}</div>
               <select class="dev-field" data-dev="${di}" data-field="switchBehavior">
                 <option value="independent" ${dev.switchBehavior === 'independent' || !dev.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
-                <option value="master" ${dev.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
-                <option value="single" ${dev.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
+                <option value="single" ${isSingle ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
               </select>
             </div>
           </div>
 
-          <div class="section-title">${t.switches || 'Switches'}</div>
+          ${isSingle ? `
+          <div class="master-option">
+            <div class="toggle-wrap">
+              <input type="checkbox" class="master-toggle" data-dev="${di}" ${dev.masterSwitch ? 'checked' : ''}>
+              <div>
+                <label style="margin-bottom:0">${t.masterSwitch || 'Master Switch'}</label>
+                <div class="desc" style="margin-bottom:0">${t.masterSwitchDesc || ''}</div>
+              </div>
+            </div>
+          </div>
+          ` : ''}
+
+          <div class="section-title" style="margin-top:16px">${t.switches || 'Switches'}</div>
 
           ${switches.map((sw, si) => renderSwitch(sw, di, si)).join('')}
 

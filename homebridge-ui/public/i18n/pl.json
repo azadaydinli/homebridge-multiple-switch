@@ -5,7 +5,6 @@
   "switchBehavior": "Tryb zachowania przełączników",
   "switchBehaviorDesc": "Kontroluje sposób interakcji przełączników ze sobą.",
   "behaviorIndependent": "Niezależny",
-  "behaviorMaster": "Główny",
   "behaviorSingle": "Pojedynczy",
   "switches": "Przełączniki",
   "switchesDesc": "Lista wirtualnych przełączników do utworzenia.",
@@ -29,5 +28,10 @@
   "device": "Urządzenie",
   "deviceName": "Nazwa urządzenia",
   "addDevice": "Dodaj urządzenie",
-  "removeDevice": "Usuń urządzenie"
+  "removeDevice": "Usuń urządzenie",
+  "behaviorIndependentDesc": "Każdy przełącznik działa niezależnie. Włączenie lub wyłączenie jednego nie wpływa na pozostałe.",
+  "behaviorSingleDesc": "Tylko jeden przełącznik może być włączony jednocześnie. Włączenie jednego automatycznie wyłącza wszystkie pozostałe.",
+  "masterSwitch": "Przełącznik główny",
+  "masterSwitchDesc": "Dodaje przełącznik główny, który włącza lub wyłącza wszystkie przełączniki jednocześnie.",
+  "switchSingular": "przełącznik"
 }

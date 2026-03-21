@@ -8,6 +8,8 @@ const SERVICE_TYPES = {
   outlet: 'Outlet',
 };
 
+const MASTER_SUBTYPE = 'master_switch';
+
 module.exports = (api) => {
   api.registerPlatform(PLATFORM_NAME, MultipleSwitchPlatform);
 };
@@ -73,6 +75,7 @@ class MultipleSwitchPlatform {
 
     const name = device.name || 'Multiple Switch Panel';
     const behavior = device.switchBehavior || 'independent';
+    const hasMaster = behavior === 'single' && device.masterSwitch === true;
     const uuid = this.api.hap.uuid.generate(name);
 
     let accessory = this.cachedAccessories.get(uuid);
@@ -83,12 +86,13 @@ class MultipleSwitchPlatform {
     }
 
     accessory.context.switchBehavior = behavior;
+    accessory.context.hasMaster = hasMaster;
     accessory.context.switchStates = accessory.context.switchStates || {};
 
     const services = new Map();
     this.deviceServices.set(uuid, services);
 
-    this.reconcileServices(accessory, switches, services);
+    this.reconcileServices(accessory, switches, services, hasMaster);
 
     if (isNew) {
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
@@ -97,9 +101,10 @@ class MultipleSwitchPlatform {
     this.cachedAccessories.delete(uuid);
   }
 
-  reconcileServices(accessory, switches, services) {
+  reconcileServices(accessory, switches, services, hasMaster) {
     const activeSubtypes = new Set();
 
+    // Create regular switches
     switches.forEach((sw, index) => {
       const subtype = `switch_${index}`;
       activeSubtypes.add(subtype);
@@ -121,6 +126,26 @@ class MultipleSwitchPlatform {
       }
     });
 
+    // Create master switch if enabled
+    if (hasMaster) {
+      activeSubtypes.add(MASTER_SUBTYPE);
+
+      let masterService = accessory.getServiceById(this.Service.Switch, MASTER_SUBTYPE);
+      if (!masterService) {
+        masterService = accessory.addService(this.Service.Switch, 'Master', MASTER_SUBTYPE);
+      }
+
+      masterService.setCharacteristic(this.Characteristic.Name, 'Master');
+      this.configureMasterHandler(accessory, masterService, services);
+
+      services.set(MASTER_SUBTYPE, masterService);
+
+      if (accessory.context.switchStates[MASTER_SUBTYPE] === undefined) {
+        accessory.context.switchStates[MASTER_SUBTYPE] = false;
+      }
+    }
+
+    // Remove stale services
     const servicesToRemove = accessory.services.filter((s) => {
       return s.subtype && !activeSubtypes.has(s.subtype);
     });
@@ -140,29 +165,36 @@ class MultipleSwitchPlatform {
           this.turnOffOthers(accessory, subtype, services);
         }
 
-        if (behavior === 'master') {
-          this.setAll(accessory, value, services);
-        }
-
         if (value && sw.delayOff > 0) {
           this.scheduleAutoOff(accessory, service, sw, subtype);
         }
       });
   }
 
+  configureMasterHandler(accessory, masterService, services) {
+    masterService.getCharacteristic(this.Characteristic.On)
+      .onGet(() => accessory.context.switchStates[MASTER_SUBTYPE] ?? false)
+      .onSet((value) => {
+        accessory.context.switchStates[MASTER_SUBTYPE] = value;
+        this.log.info(`[Master] ${value ? 'ON' : 'OFF'}`);
+
+        // Master ON → all regular switches ON
+        // Master OFF → all regular switches OFF
+        for (const [key, svc] of services) {
+          if (key !== MASTER_SUBTYPE) {
+            accessory.context.switchStates[key] = value;
+            svc.updateCharacteristic(this.Characteristic.On, value);
+          }
+        }
+      });
+  }
+
   turnOffOthers(accessory, excludeSubtype, services) {
     for (const [key, svc] of services) {
-      if (key !== excludeSubtype) {
+      if (key !== excludeSubtype && key !== MASTER_SUBTYPE) {
         accessory.context.switchStates[key] = false;
         svc.updateCharacteristic(this.Characteristic.On, false);
       }
-    }
-  }
-
-  setAll(accessory, value, services) {
-    for (const [key, svc] of services) {
-      accessory.context.switchStates[key] = value;
-      svc.updateCharacteristic(this.Characteristic.On, value);
     }
   }
 

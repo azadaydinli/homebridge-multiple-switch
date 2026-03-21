@@ -5,7 +5,6 @@
   "switchBehavior": "وضع سلوك المفتاح",
   "switchBehaviorDesc": "يتحكم في كيفية تفاعل المفاتيح مع بعضها البعض.",
   "behaviorIndependent": "مستقل",
-  "behaviorMaster": "رئيسي",
   "behaviorSingle": "فردي",
   "switches": "المفاتيح",
   "switchesDesc": "قائمة المفاتيح الافتراضية المراد إنشاؤها.",
@@ -29,5 +28,10 @@
   "device": "جهاز",
   "deviceName": "اسم الجهاز",
   "addDevice": "إضافة جهاز",
-  "removeDevice": "إزالة الجهاز"
+  "removeDevice": "إزالة الجهاز",
+  "behaviorIndependentDesc": "كل مفتاح يعمل بشكل مستقل. تشغيل أو إيقاف أحدها لا يؤثر على الآخرين.",
+  "behaviorSingleDesc": "يمكن تشغيل مفتاح واحد فقط في نفس الوقت. تشغيل واحد يقوم بإيقاف جميع الآخرين تلقائياً.",
+  "masterSwitch": "المفتاح الرئيسي",
+  "masterSwitchDesc": "يضيف مفتاحاً رئيسياً يقوم بتشغيل أو إيقاف جميع المفاتيح دفعة واحدة.",
+  "switchSingular": "مفتاح"
 }

@@ -5,7 +5,6 @@
   "switchBehavior": "Anahtar Davranış Modu",
   "switchBehaviorDesc": "Anahtarların birbirleriyle nasıl etkileşime gireceğini kontrol eder.",
   "behaviorIndependent": "Bağımsız",
-  "behaviorMaster": "Ana Kontrol",
   "behaviorSingle": "Tekli",
   "switches": "Anahtarlar",
   "switchesDesc": "Oluşturulacak sanal anahtarların listesi.",
@@ -29,5 +28,10 @@
   "device": "Cihaz",
   "deviceName": "Cihaz Adı",
   "addDevice": "Cihaz Ekle",
-  "removeDevice": "Cihazı Kaldır"
+  "removeDevice": "Cihazı Kaldır",
+  "behaviorIndependentDesc": "Her anahtar bağımsız çalışır. Birini açmak veya kapatmak diğerlerini etkilemez.",
+  "behaviorSingleDesc": "Aynı anda yalnızca bir anahtar açık olabilir. Birini açmak diğerlerini otomatik kapatır.",
+  "masterSwitch": "Ana Anahtar",
+  "masterSwitchDesc": "Tüm anahtarları tek seferde açan veya kapatan bir ana anahtar ekler.",
+  "switchSingular": "anahtar"
 }

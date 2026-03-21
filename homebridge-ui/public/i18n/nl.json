@@ -5,7 +5,6 @@
   "switchBehavior": "Schakelaargedrag",
   "switchBehaviorDesc": "Bepaalt hoe de schakelaars met elkaar omgaan.",
   "behaviorIndependent": "Onafhankelijk",
-  "behaviorMaster": "Master",
   "behaviorSingle": "Enkelvoudig",
   "switches": "Schakelaars",
   "switchesDesc": "Lijst van virtuele schakelaars om aan te maken.",
@@ -29,5 +28,10 @@
   "device": "Apparaat",
   "deviceName": "Apparaatnaam",
   "addDevice": "Apparaat toevoegen",
-  "removeDevice": "Apparaat verwijderen"
+  "removeDevice": "Apparaat verwijderen",
+  "behaviorIndependentDesc": "Elke schakelaar werkt onafhankelijk. Het in- of uitschakelen van één heeft geen invloed op de andere.",
+  "behaviorSingleDesc": "Er kan slechts één schakelaar tegelijk aan staan. Het inschakelen van één schakelaar schakelt alle andere automatisch uit.",
+  "masterSwitch": "Hoofdschakelaar",
+  "masterSwitchDesc": "Voegt een hoofdschakelaar toe die alle schakelaars in één keer in- of uitschakelt.",
+  "switchSingular": "schakelaar"
 }

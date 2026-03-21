@@ -5,7 +5,6 @@
   "switchBehavior": "开关行为模式",
   "switchBehaviorDesc": "控制开关之间的交互方式。",
   "behaviorIndependent": "独立",
-  "behaviorMaster": "主控",
   "behaviorSingle": "单选",
   "switches": "开关",
   "switchesDesc": "要创建的虚拟开关列表。",
@@ -29,5 +28,10 @@
   "device": "设备",
   "deviceName": "设备名称",
   "addDevice": "添加设备",
-  "removeDevice": "删除设备"
+  "removeDevice": "删除设备",
+  "behaviorIndependentDesc": "每个开关独立工作。打开或关闭一个不会影响其他开关。",
+  "behaviorSingleDesc": "同一时间只能有一个开关处于打开状态。打开一个会自动关闭所有其他开关。",
+  "masterSwitch": "主开关",
+  "masterSwitchDesc": "添加一个主开关，可以一次性打开或关闭所有开关。",
+  "switchSingular": "开关"
 }

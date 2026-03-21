@@ -31,9 +31,14 @@
               "default": "independent",
               "oneOf": [
                 { "title": "Independent", "enum": ["independent"] },
-                { "title": "Master", "enum": ["master"] },
                 { "title": "Single", "enum": ["single"] }
               ]
+            },
+            "masterSwitch": {
+              "title": "Master Switch",
+              "description": "Add a master switch that turns all switches on or off at once. Only available in Single mode.",
+              "type": "boolean",
+              "default": false
             },
             "switches": {
               "title": "Switches",

@@ -5,7 +5,6 @@
   "switchBehavior": "Schaltverhalten",
   "switchBehaviorDesc": "Steuert, wie die Schalter miteinander interagieren.",
   "behaviorIndependent": "Unabhängig",
-  "behaviorMaster": "Master",
   "behaviorSingle": "Einzeln",
   "switches": "Schalter",
   "switchesDesc": "Liste der zu erstellenden virtuellen Schalter.",
@@ -29,5 +28,10 @@
   "device": "Gerät",
   "deviceName": "Gerätename",
   "addDevice": "Gerät hinzufügen",
-  "removeDevice": "Gerät entfernen"
+  "removeDevice": "Gerät entfernen",
+  "behaviorIndependentDesc": "Jeder Schalter arbeitet unabhängig. Das Ein- oder Ausschalten eines Schalters hat keinen Einfluss auf die anderen.",
+  "behaviorSingleDesc": "Es kann nur ein Schalter gleichzeitig eingeschaltet sein. Das Einschalten eines Schalters schaltet alle anderen automatisch aus.",
+  "masterSwitch": "Hauptschalter",
+  "masterSwitchDesc": "Fügt einen Hauptschalter hinzu, der alle Schalter auf einmal ein- oder ausschaltet.",
+  "switchSingular": "Schalter"
 }
