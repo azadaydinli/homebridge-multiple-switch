@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.0-beta.5] - 2026-03-21
+
+### Fixed
+- Switch names now correctly appear in HomeKit — services are recreated on each
+  start with fresh displayName, Name, and ConfiguredName (cached services kept
+  stale names from initial creation)
+- Master switch now always appears first in HomeKit — all subtype services are
+  removed and recreated in correct order (master first, then switches)
+
+### Changed
+- Master switch type selector now inline with the toggle (same row)
+
 ## [1.6.0-beta.4] - 2026-03-21
 
 ### Added

@@ -102,8 +102,8 @@ class MultipleSwitchPlatform {
   }
 
   setServiceName(service, displayName) {
+    service.displayName = displayName;
     service.setCharacteristic(this.Characteristic.Name, displayName);
-    // ConfiguredName is what HomeKit actually displays for sub-services
     if (this.Characteristic.ConfiguredName) {
       if (!service.testCharacteristic(this.Characteristic.ConfiguredName)) {
         service.addOptionalCharacteristic(this.Characteristic.ConfiguredName);
@@ -113,23 +113,14 @@ class MultipleSwitchPlatform {
   }
 
   reconcileServices(accessory, device, switches, services, hasMaster) {
-    const activeSubtypes = new Set();
+    // Remove ALL existing subtype services (ensures fresh names and correct order)
+    const subtypeServices = accessory.services.filter((s) => s.subtype);
+    subtypeServices.forEach((s) => accessory.removeService(s));
 
-    // Create master switch FIRST if enabled (so it appears at top in HomeKit)
+    // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
     if (hasMaster) {
-      activeSubtypes.add(MASTER_SUBTYPE);
-
       const MasterServiceClass = this.getServiceClass(device.masterSwitchType);
-      let masterService = accessory.getServiceById(MasterServiceClass, MASTER_SUBTYPE);
-
-      // If type changed, remove old service and create new one
-      if (!masterService) {
-        const oldMaster = accessory.services.find((s) => s.subtype === MASTER_SUBTYPE);
-        if (oldMaster) {
-          accessory.removeService(oldMaster);
-        }
-        masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
-      }
+      const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
 
       this.setServiceName(masterService, 'Master');
       this.configureMasterHandler(accessory, masterService, services);
@@ -141,17 +132,12 @@ class MultipleSwitchPlatform {
       }
     }
 
-    // Create regular switches
+    // 2. Create regular switches in order
     switches.forEach((sw, index) => {
       const subtype = `switch_${index}`;
-      activeSubtypes.add(subtype);
 
       const ServiceClass = this.getServiceClass(sw.type);
-      let service = accessory.getServiceById(ServiceClass, subtype);
-
-      if (!service) {
-        service = accessory.addService(ServiceClass, sw.name, subtype);
-      }
+      const service = accessory.addService(ServiceClass, sw.name, subtype);
 
       this.setServiceName(service, sw.name);
       this.configureSwitchHandlers(accessory, service, sw, subtype, services);
@@ -163,11 +149,13 @@ class MultipleSwitchPlatform {
       }
     });
 
-    // Remove stale services
-    const servicesToRemove = accessory.services.filter((s) => {
-      return s.subtype && !activeSubtypes.has(s.subtype);
-    });
-    servicesToRemove.forEach((s) => accessory.removeService(s));
+    // Clean up states for removed switches
+    const activeKeys = new Set(services.keys());
+    for (const key of Object.keys(accessory.context.switchStates)) {
+      if (!activeKeys.has(key)) {
+        delete accessory.context.switchStates[key];
+      }
+    }
   }
 
   configureSwitchHandlers(accessory, service, sw, subtype, services) {
