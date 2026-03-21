@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.0] - 2026-03-21
+
+### Added
+- Multi-device support: create multiple separate HomeKit accessories, each with
+  its own name, switch behavior mode, and set of switches
+- `devices` array in config — each device becomes a separate accessory in HomeKit
+- Full backward compatibility: existing configs with `switches` at root level
+  continue to work and are auto-migrated to the new `devices` format in the UI
+
 ## [1.4.1] - 2026-03-21
 
 ### Fixed

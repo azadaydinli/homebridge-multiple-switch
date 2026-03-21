@@ -23,5 +23,11 @@
   "removeSwitch": "删除",
   "save": "保存",
   "on": "开",
-  "off": "关"
+  "off": "关",
+  "devices": "设备",
+  "devicesDesc": "每个设备在 HomeKit 中显示为一个独立的配件，拥有自己的开关。",
+  "device": "设备",
+  "deviceName": "设备名称",
+  "addDevice": "添加设备",
+  "removeDevice": "删除设备"
 }

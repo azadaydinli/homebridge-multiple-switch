@@ -23,5 +23,11 @@
   "removeSwitch": "Remove",
   "save": "Save",
   "on": "On",
-  "off": "Off"
+  "off": "Off",
+  "devices": "Devices",
+  "devicesDesc": "Each device appears as a separate accessory in HomeKit with its own switches.",
+  "device": "Device",
+  "deviceName": "Device Name",
+  "addDevice": "Add Device",
+  "removeDevice": "Remove Device"
 }

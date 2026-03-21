@@ -20,7 +20,7 @@ class MultipleSwitchPlatform {
     this.Service = api.hap.Service;
     this.Characteristic = api.hap.Characteristic;
     this.cachedAccessories = new Map();
-    this.switchServices = new Map();
+    this.deviceServices = new Map();
 
     this.api.on('didFinishLaunching', () => {
       this.log.info('MultipleSwitchPlatform started.');
@@ -32,16 +32,47 @@ class MultipleSwitchPlatform {
     this.cachedAccessories.set(accessory.UUID, accessory);
   }
 
+  getDevices() {
+    if (Array.isArray(this.config.devices) && this.config.devices.length > 0) {
+      return this.config.devices;
+    }
+
+    if (Array.isArray(this.config.switches) && this.config.switches.length > 0) {
+      return [{
+        name: this.config.name || 'Multiple Switch Panel',
+        switchBehavior: this.config.switchBehavior || 'independent',
+        switches: this.config.switches,
+      }];
+    }
+
+    return [];
+  }
+
   setupAccessories() {
-    const switches = this.config.switches;
-    if (!Array.isArray(switches) || switches.length === 0) {
-      this.log.warn('No switches configured. Removing stale accessories.');
+    const devices = this.getDevices();
+
+    if (devices.length === 0) {
+      this.log.warn('No devices configured. Removing stale accessories.');
       this.removeStaleCachedAccessories();
       return;
     }
 
-    const name = this.config.name || 'Multiple Switch Panel';
-    const behavior = this.config.switchBehavior || 'independent';
+    for (const device of devices) {
+      this.setupDevice(device);
+    }
+
+    this.removeStaleCachedAccessories();
+  }
+
+  setupDevice(device) {
+    const switches = device.switches;
+    if (!Array.isArray(switches) || switches.length === 0) {
+      this.log.warn(`Device "${device.name}" has no switches, skipping.`);
+      return;
+    }
+
+    const name = device.name || 'Multiple Switch Panel';
+    const behavior = device.switchBehavior || 'independent';
     const uuid = this.api.hap.uuid.generate(name);
 
     let accessory = this.cachedAccessories.get(uuid);
@@ -54,17 +85,19 @@ class MultipleSwitchPlatform {
     accessory.context.switchBehavior = behavior;
     accessory.context.switchStates = accessory.context.switchStates || {};
 
-    this.reconcileServices(accessory, switches);
+    const services = new Map();
+    this.deviceServices.set(uuid, services);
+
+    this.reconcileServices(accessory, switches, services);
 
     if (isNew) {
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     }
 
     this.cachedAccessories.delete(uuid);
-    this.removeStaleCachedAccessories();
   }
 
-  reconcileServices(accessory, switches) {
+  reconcileServices(accessory, switches, services) {
     const activeSubtypes = new Set();
 
     switches.forEach((sw, index) => {
@@ -79,9 +112,9 @@ class MultipleSwitchPlatform {
       }
 
       service.setCharacteristic(this.Characteristic.Name, sw.name);
-      this.configureSwitchHandlers(accessory, service, sw, subtype);
+      this.configureSwitchHandlers(accessory, service, sw, subtype, services);
 
-      this.switchServices.set(subtype, service);
+      services.set(subtype, service);
 
       if (accessory.context.switchStates[subtype] === undefined) {
         accessory.context.switchStates[subtype] = sw.defaultState || false;
@@ -94,7 +127,7 @@ class MultipleSwitchPlatform {
     servicesToRemove.forEach((s) => accessory.removeService(s));
   }
 
-  configureSwitchHandlers(accessory, service, sw, subtype) {
+  configureSwitchHandlers(accessory, service, sw, subtype, services) {
     service.getCharacteristic(this.Characteristic.On)
       .onGet(() => accessory.context.switchStates[subtype] ?? false)
       .onSet((value) => {
@@ -104,11 +137,11 @@ class MultipleSwitchPlatform {
         const behavior = accessory.context.switchBehavior;
 
         if (behavior === 'single' && value) {
-          this.turnOffOthers(accessory, subtype);
+          this.turnOffOthers(accessory, subtype, services);
         }
 
         if (behavior === 'master') {
-          this.setAll(accessory, value);
+          this.setAll(accessory, value, services);
         }
 
         if (value && sw.delayOff > 0) {
@@ -117,8 +150,8 @@ class MultipleSwitchPlatform {
       });
   }
 
-  turnOffOthers(accessory, excludeSubtype) {
-    for (const [key, svc] of this.switchServices) {
+  turnOffOthers(accessory, excludeSubtype, services) {
+    for (const [key, svc] of services) {
       if (key !== excludeSubtype) {
         accessory.context.switchStates[key] = false;
         svc.updateCharacteristic(this.Characteristic.On, false);
@@ -126,8 +159,8 @@ class MultipleSwitchPlatform {
     }
   }
 
-  setAll(accessory, value) {
-    for (const [key, svc] of this.switchServices) {
+  setAll(accessory, value, services) {
+    for (const [key, svc] of services) {
       accessory.context.switchStates[key] = value;
       svc.updateCharacteristic(this.Characteristic.On, value);
     }

@@ -23,5 +23,11 @@
   "removeSwitch": "إزالة",
   "save": "حفظ",
   "on": "تشغيل",
-  "off": "إيقاف"
+  "off": "إيقاف",
+  "devices": "الأجهزة",
+  "devicesDesc": "يظهر كل جهاز كملحق منفصل في HomeKit مع مفاتيحه الخاصة.",
+  "device": "جهاز",
+  "deviceName": "اسم الجهاز",
+  "addDevice": "إضافة جهاز",
+  "removeDevice": "إزالة الجهاز"
 }

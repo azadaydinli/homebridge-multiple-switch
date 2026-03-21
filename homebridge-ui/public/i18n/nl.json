@@ -23,5 +23,11 @@
   "removeSwitch": "Verwijderen",
   "save": "Opslaan",
   "on": "Aan",
-  "off": "Uit"
+  "off": "Uit",
+  "devices": "Apparaten",
+  "devicesDesc": "Elk apparaat verschijnt als een apart accessoire in HomeKit met zijn eigen schakelaars.",
+  "device": "Apparaat",
+  "deviceName": "Apparaatnaam",
+  "addDevice": "Apparaat toevoegen",
+  "removeDevice": "Apparaat verwijderen"
 }

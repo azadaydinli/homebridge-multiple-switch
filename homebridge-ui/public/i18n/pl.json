@@ -23,5 +23,11 @@
   "removeSwitch": "Usuń",
   "save": "Zapisz",
   "on": "Wł",
-  "off": "Wył"
+  "off": "Wył",
+  "devices": "Urządzenia",
+  "devicesDesc": "Każde urządzenie pojawia się jako osobne akcesorium w HomeKit z własnymi przełącznikami.",
+  "device": "Urządzenie",
+  "deviceName": "Nazwa urządzenia",
+  "addDevice": "Dodaj urządzenie",
+  "removeDevice": "Usuń urządzenie"
 }

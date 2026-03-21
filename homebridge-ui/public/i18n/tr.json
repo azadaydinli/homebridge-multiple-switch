@@ -23,5 +23,11 @@
   "removeSwitch": "Kaldır",
   "save": "Kaydet",
   "on": "Açık",
-  "off": "Kapalı"
+  "off": "Kapalı",
+  "devices": "Cihazlar",
+  "devicesDesc": "Her cihaz HomeKit'te kendi anahtarlarıyla ayrı bir aksesuar olarak görünür.",
+  "device": "Cihaz",
+  "deviceName": "Cihaz Adı",
+  "addDevice": "Cihaz Ekle",
+  "removeDevice": "Cihazı Kaldır"
 }

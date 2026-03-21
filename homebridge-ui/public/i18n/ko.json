@@ -23,5 +23,11 @@
   "removeSwitch": "삭제",
   "save": "저장",
   "on": "켜짐",
-  "off": "꺼짐"
+  "off": "꺼짐",
+  "devices": "장치",
+  "devicesDesc": "각 장치는 HomeKit에서 자체 스위치를 가진 별도의 액세서리로 표시됩니다.",
+  "device": "장치",
+  "deviceName": "장치 이름",
+  "addDevice": "장치 추가",
+  "removeDevice": "장치 삭제"
 }

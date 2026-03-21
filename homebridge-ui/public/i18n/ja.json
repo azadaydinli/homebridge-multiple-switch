@@ -23,5 +23,11 @@
   "removeSwitch": "削除",
   "save": "保存",
   "on": "オン",
-  "off": "オフ"
+  "off": "オフ",
+  "devices": "デバイス",
+  "devicesDesc": "各デバイスは HomeKit で独自のスイッチを持つ個別のアクセサリとして表示されます。",
+  "device": "デバイス",
+  "deviceName": "デバイス名",
+  "addDevice": "デバイスを追加",
+  "removeDevice": "デバイスを削除"
 }

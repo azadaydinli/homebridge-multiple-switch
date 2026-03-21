@@ -7,6 +7,8 @@
     --ui-card-bg: #f8f9fa;
     --ui-input-bg: #fff;
     --ui-accent: #007bff;
+    --ui-device-bg: rgba(0,123,255,0.04);
+    --ui-device-border: rgba(0,123,255,0.2);
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -17,6 +19,8 @@
       --ui-card-bg: rgba(255,255,255,0.06);
       --ui-input-bg: rgba(255,255,255,0.08);
       --ui-accent: #7b61ff;
+      --ui-device-bg: rgba(123,97,255,0.06);
+      --ui-device-border: rgba(123,97,255,0.25);
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,6 +50,19 @@
     border-color: var(--ui-accent);
     outline: none;
   }
+  .device-card {
+    border: 2px solid var(--ui-device-border);
+    border-radius: 10px; padding: 20px; margin-bottom: 20px;
+    background: var(--ui-device-bg);
+  }
+  .device-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--ui-border);
+  }
+  .device-header strong {
+    font-size: 16px; color: var(--ui-accent);
+  }
   .switch-card {
     border: 1px solid var(--ui-border);
     border-radius: 8px; padding: 16px; margin-bottom: 12px;
@@ -67,6 +84,11 @@
   .btn-danger:hover { background: #c82333; }
   .btn-primary { background: var(--ui-accent); color: #fff; }
   .btn-primary:hover { opacity: 0.85; }
+  .btn-outline {
+    background: transparent; color: var(--ui-accent);
+    border: 1px solid var(--ui-accent);
+  }
+  .btn-outline:hover { background: var(--ui-accent); color: #fff; }
   .actions { margin-top: 16px; display: flex; gap: 10px; }
   .toggle-wrap { display: flex; align-items: center; gap: 8px; }
   .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ui-accent); }
@@ -113,10 +135,24 @@
     config = configs[0] || {};
   } catch {}
 
+  // Migrate old format (switches at root) to devices array
+  if (Array.isArray(config.switches) && config.switches.length > 0 && !config.devices) {
+    config.devices = [{
+      name: config.name || 'Multiple Switch Panel',
+      switchBehavior: config.switchBehavior || 'independent',
+      switches: config.switches,
+    }];
+    delete config.switches;
+    delete config.switchBehavior;
+  }
+
+  if (!config.devices) {
+    config.devices = [];
+  }
+
   const app = document.getElementById('app');
 
   function render() {
-    const switches = config.switches || [];
     app.innerHTML = `
       <div class="form-group">
         <label>${t.platformName || 'Platform Name'}</label>
@@ -124,25 +160,15 @@
         <input type="text" id="cfg-name" value="${esc(config.name || 'Multiple Switch Platform')}">
       </div>
 
-      <div class="form-group">
-        <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
-        <div class="desc">${t.switchBehaviorDesc || ''}</div>
-        <select id="cfg-behavior">
-          <option value="independent" ${config.switchBehavior === 'independent' || !config.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
-          <option value="master" ${config.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
-          <option value="single" ${config.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
-        </select>
-      </div>
+      <div class="section-title">${t.devices || 'Devices'}</div>
+      <div class="desc" style="margin-bottom:16px">${t.devicesDesc || ''}</div>
 
-      <div class="section-title">${t.switches || 'Switches'}</div>
-      <div class="desc" style="margin-bottom:12px">${t.switchesDesc || ''}</div>
-
-      <div id="switches-list">
-        ${switches.map((sw, i) => renderSwitch(sw, i)).join('')}
+      <div id="devices-list">
+        ${config.devices.map((dev, di) => renderDevice(dev, di)).join('')}
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="btn-add">+ ${t.addSwitch || 'Add Switch'}</button>
+        <button class="btn btn-outline" id="btn-add-device">+ ${t.addDevice || 'Add Device'}</button>
       </div>
     `;
 
@@ -150,21 +176,50 @@
       config.name = e.target.value;
       save();
     });
-    document.getElementById('cfg-behavior').addEventListener('change', (e) => {
-      config.switchBehavior = e.target.value;
-      save();
-    });
-    document.getElementById('btn-add').addEventListener('click', () => {
-      if (!config.switches) config.switches = [];
-      config.switches.push({ name: '', type: 'outlet', defaultState: false, delayOff: 0 });
+
+    document.getElementById('btn-add-device').addEventListener('click', () => {
+      config.devices.push({
+        name: '',
+        switchBehavior: 'independent',
+        switches: [{ name: '', type: 'outlet', defaultState: false, delayOff: 0 }],
+      });
       render();
       save();
     });
 
-    document.querySelectorAll('.btn-remove').forEach(btn => {
+    // Device-level events
+    document.querySelectorAll('.dev-field').forEach(input => {
+      input.addEventListener('change', () => {
+        const di = parseInt(input.dataset.dev);
+        const field = input.dataset.field;
+        config.devices[di][field] = input.value;
+        save();
+      });
+    });
+
+    document.querySelectorAll('.btn-remove-device').forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.idx);
-        config.switches.splice(idx, 1);
+        config.devices.splice(parseInt(btn.dataset.dev), 1);
+        render();
+        save();
+      });
+    });
+
+    // Switch-level events
+    document.querySelectorAll('.btn-add-switch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const di = parseInt(btn.dataset.dev);
+        config.devices[di].switches.push({ name: '', type: 'outlet', defaultState: false, delayOff: 0 });
+        render();
+        save();
+      });
+    });
+
+    document.querySelectorAll('.btn-remove-switch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const di = parseInt(btn.dataset.dev);
+        const si = parseInt(btn.dataset.sw);
+        config.devices[di].switches.splice(si, 1);
         render();
         save();
       });
@@ -172,35 +227,69 @@
 
     document.querySelectorAll('.sw-field').forEach(input => {
       input.addEventListener('change', () => {
-        const idx = parseInt(input.dataset.idx);
+        const di = parseInt(input.dataset.dev);
+        const si = parseInt(input.dataset.sw);
         const field = input.dataset.field;
         if (field === 'defaultState') {
-          config.switches[idx][field] = input.checked;
+          config.devices[di].switches[si][field] = input.checked;
         } else if (field === 'delayOff') {
-          config.switches[idx][field] = parseInt(input.value) || 0;
+          config.devices[di].switches[si][field] = parseInt(input.value) || 0;
         } else {
-          config.switches[idx][field] = input.value;
+          config.devices[di].switches[si][field] = input.value;
         }
         save();
       });
     });
   }
 
-  function renderSwitch(sw, i) {
+  function renderDevice(dev, di) {
+    const switches = dev.switches || [];
+    return `
+      <div class="device-card">
+        <div class="device-header">
+          <strong>${t.device || 'Device'} #${di + 1}</strong>
+          <button class="btn btn-danger btn-remove-device" data-dev="${di}">${t.removeDevice || 'Remove Device'}</button>
+        </div>
+
+        <div class="inline-row">
+          <div class="form-group">
+            <label>${t.deviceName || 'Device Name'}</label>
+            <input type="text" class="dev-field" data-dev="${di}" data-field="name" value="${esc(dev.name || '')}">
+          </div>
+          <div class="form-group">
+            <label>${t.switchBehavior || 'Switch Behavior Mode'}</label>
+            <select class="dev-field" data-dev="${di}" data-field="switchBehavior">
+              <option value="independent" ${dev.switchBehavior === 'independent' || !dev.switchBehavior ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
+              <option value="master" ${dev.switchBehavior === 'master' ? 'selected' : ''}>${t.behaviorMaster || 'Master'}</option>
+              <option value="single" ${dev.switchBehavior === 'single' ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-title">${t.switches || 'Switches'}</div>
+
+        ${switches.map((sw, si) => renderSwitch(sw, di, si)).join('')}
+
+        <button class="btn btn-primary btn-add-switch" data-dev="${di}">+ ${t.addSwitch || 'Add Switch'}</button>
+      </div>
+    `;
+  }
+
+  function renderSwitch(sw, di, si) {
     return `
       <div class="switch-card">
         <div class="switch-header">
-          <strong>#${i + 1}</strong>
-          <button class="btn btn-danger btn-remove" data-idx="${i}">${t.removeSwitch || 'Remove'}</button>
+          <strong>#${si + 1}</strong>
+          <button class="btn btn-danger btn-remove-switch" data-dev="${di}" data-sw="${si}">${t.removeSwitch || 'Remove'}</button>
         </div>
         <div class="inline-row">
           <div class="form-group">
             <label>${t.switchName || 'Switch Name'}</label>
-            <input type="text" class="sw-field" data-idx="${i}" data-field="name" value="${esc(sw.name || '')}">
+            <input type="text" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="name" value="${esc(sw.name || '')}">
           </div>
           <div class="form-group">
             <label>${t.switchType || 'Switch Type'}</label>
-            <select class="sw-field" data-idx="${i}" data-field="type">
+            <select class="sw-field" data-dev="${di}" data-sw="${si}" data-field="type">
               <option value="switch" ${sw.type === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
               <option value="outlet" ${sw.type === 'outlet' || !sw.type ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
             </select>
@@ -209,12 +298,12 @@
         <div class="inline-row">
           <div class="form-group">
             <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
-            <input type="number" class="sw-field" data-idx="${i}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
+            <input type="number" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
           </div>
           <div class="form-group">
             <label>${t.defaultState || 'Default State'}</label>
             <div class="toggle-wrap" style="margin-top:6px">
-              <input type="checkbox" class="sw-field" data-idx="${i}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
+              <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
               <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
             </div>
           </div>

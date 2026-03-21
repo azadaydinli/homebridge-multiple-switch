@@ -12,65 +12,73 @@
         "type": "string",
         "default": "Multiple Switch Platform"
       },
-      "switchBehavior": {
-        "title": "Switch Behavior Mode",
-        "description": "Controls how switches interact with each other.",
-        "type": "string",
-        "default": "independent",
-        "oneOf": [
-          { "title": "Independent", "enum": ["independent"] },
-          { "title": "Master", "enum": ["master"] },
-          { "title": "Single", "enum": ["single"] }
-        ]
-      },
-      "switches": {
-        "title": "Switches",
-        "description": "List of virtual switches to create.",
+      "devices": {
+        "title": "Devices",
+        "description": "List of switch devices. Each device appears as a separate accessory in HomeKit.",
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
             "name": {
-              "title": "Switch Name",
-              "description": "Display name of the switch in HomeKit.",
+              "title": "Device Name",
+              "description": "Display name of this device in HomeKit.",
               "type": "string"
             },
-            "type": {
-              "title": "Switch Type",
-              "description": "The HomeKit accessory type for this switch.",
+            "switchBehavior": {
+              "title": "Switch Behavior Mode",
+              "description": "Controls how switches interact with each other within this device.",
               "type": "string",
-              "default": "outlet",
+              "default": "independent",
               "oneOf": [
-                { "title": "Switch", "enum": ["switch"] },
-                { "title": "Outlet", "enum": ["outlet"] }
+                { "title": "Independent", "enum": ["independent"] },
+                { "title": "Master", "enum": ["master"] },
+                { "title": "Single", "enum": ["single"] }
               ]
             },
-            "defaultState": {
-              "title": "Default State",
-              "description": "Initial power state when Homebridge starts.",
-              "type": "boolean",
-              "default": false
-            },
-            "delayOff": {
-              "title": "Auto Turn Off (ms)",
-              "description": "Automatically turn off after this many milliseconds. Set to 0 to disable.",
-              "type": "number",
-              "default": 0,
-              "minimum": 0
+            "switches": {
+              "title": "Switches",
+              "description": "List of virtual switches in this device.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "title": "Switch Name",
+                    "description": "Display name of the switch in HomeKit.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "title": "Switch Type",
+                    "description": "The HomeKit accessory type for this switch.",
+                    "type": "string",
+                    "default": "outlet",
+                    "oneOf": [
+                      { "title": "Switch", "enum": ["switch"] },
+                      { "title": "Outlet", "enum": ["outlet"] }
+                    ]
+                  },
+                  "defaultState": {
+                    "title": "Default State",
+                    "description": "Initial power state when Homebridge starts.",
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "delayOff": {
+                    "title": "Auto Turn Off (ms)",
+                    "description": "Automatically turn off after this many milliseconds. Set to 0 to disable.",
+                    "type": "number",
+                    "default": 0,
+                    "minimum": 0
+                  }
+                },
+                "required": ["name", "type"]
+              }
             }
           },
-          "required": ["name", "type"]
-        },
-        "default": [
-          {
-            "name": "Switch 1",
-            "type": "outlet",
-            "defaultState": false,
-            "delayOff": 0
-          }
-        ]
+          "required": ["name", "switches"]
+        }
       }
     },
-    "required": ["name", "switches"]
+    "required": ["name"]
   }
 }

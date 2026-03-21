@@ -23,5 +23,11 @@
   "removeSwitch": "Entfernen",
   "save": "Speichern",
   "on": "Ein",
-  "off": "Aus"
+  "off": "Aus",
+  "devices": "Geräte",
+  "devicesDesc": "Jedes Gerät erscheint als separates Zubehör in HomeKit mit eigenen Schaltern.",
+  "device": "Gerät",
+  "deviceName": "Gerätename",
+  "addDevice": "Gerät hinzufügen",
+  "removeDevice": "Gerät entfernen"
 }

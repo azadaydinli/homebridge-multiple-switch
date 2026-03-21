@@ -23,5 +23,11 @@
   "removeSwitch": "Remover",
   "save": "Salvar",
   "on": "Ligado",
-  "off": "Desligado"
+  "off": "Desligado",
+  "devices": "Dispositivos",
+  "devicesDesc": "Cada dispositivo aparece como um acessório separado no HomeKit com seus próprios interruptores.",
+  "device": "Dispositivo",
+  "deviceName": "Nome do dispositivo",
+  "addDevice": "Adicionar dispositivo",
+  "removeDevice": "Remover dispositivo"
 }
