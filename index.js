@@ -75,7 +75,7 @@ class MultipleSwitchPlatform {
 
     const name = device.name || 'Multiple Switch Panel';
     const behavior = device.switchBehavior || 'independent';
-    const hasMaster = behavior === 'single' && device.masterSwitch === true;
+    const hasMaster = behavior === 'independent' && device.masterSwitch === true;
     const uuid = this.api.hap.uuid.generate(name);
 
     let accessory = this.cachedAccessories.get(uuid);

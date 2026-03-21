@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0-beta.2] - 2026-03-21
+
+### Fixed
+- Master Switch now available in Independent mode (was incorrectly in Single mode)
+- Behavior description now appears below the select dropdown instead of above
+
 ## [1.6.0-beta.1] - 2026-03-21
 
 ### Removed
