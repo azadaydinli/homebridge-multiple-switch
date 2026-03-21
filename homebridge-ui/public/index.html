@@ -398,9 +398,9 @@
                 <option value="independent" ${isIndependent ? 'selected' : ''}>${t.behaviorIndependent || 'Independent'}</option>
                 <option value="single" ${isSingle ? 'selected' : ''}>${t.behaviorSingle || 'Single'}</option>
               </select>
-              <div class="desc" style="margin-top:6px">${behaviorDesc}</div>
             </div>
           </div>
+          ${behaviorDesc ? `<div class="desc" style="margin-top:2px">${behaviorDesc}</div>` : ''}
 
           ${isIndependent ? `
           <div class="master-option">
@@ -414,8 +414,8 @@
               </div>
               ${dev.masterSwitch ? `
               <select class="master-type-field" data-dev="${di}" style="width:auto;min-width:120px;flex-shrink:0">
-                <option value="switch" ${dev.masterSwitchType === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
-                <option value="outlet" ${dev.masterSwitchType === 'outlet' || !dev.masterSwitchType ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
+                <option value="switch" ${dev.masterSwitchType === 'switch' || !dev.masterSwitchType ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
+                <option value="outlet" ${dev.masterSwitchType === 'outlet' ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
               </select>
               ` : ''}
             </div>
@@ -462,14 +462,14 @@
               </select>
             </div>
           </div>
-          <div class="inline-row">
+          <div class="inline-row" style="align-items:end">
             <div class="form-group">
               <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
               <input type="number" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:flex;flex-direction:column;justify-content:end">
               <label>${t.defaultState || 'Default State'}</label>
-              <div class="toggle-wrap" style="margin-top:6px">
+              <div class="toggle-wrap" style="height:37px;display:flex;align-items:center">
                 <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
                 <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
               </div>

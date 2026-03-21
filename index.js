@@ -119,7 +119,7 @@ class MultipleSwitchPlatform {
 
     // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
     if (hasMaster) {
-      const MasterServiceClass = this.getServiceClass(device.masterSwitchType);
+      const MasterServiceClass = this.getServiceClass(device.masterSwitchType || 'switch');
       const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
 
       this.setServiceName(masterService, 'Master');
