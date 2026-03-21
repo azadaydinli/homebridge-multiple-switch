@@ -92,7 +92,7 @@ class MultipleSwitchPlatform {
     const services = new Map();
     this.deviceServices.set(uuid, services);
 
-    this.reconcileServices(accessory, switches, services, hasMaster);
+    this.reconcileServices(accessory, device, switches, services, hasMaster);
 
     if (isNew) {
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
@@ -112,16 +112,23 @@ class MultipleSwitchPlatform {
     }
   }
 
-  reconcileServices(accessory, switches, services, hasMaster) {
+  reconcileServices(accessory, device, switches, services, hasMaster) {
     const activeSubtypes = new Set();
 
     // Create master switch FIRST if enabled (so it appears at top in HomeKit)
     if (hasMaster) {
       activeSubtypes.add(MASTER_SUBTYPE);
 
-      let masterService = accessory.getServiceById(this.Service.Switch, MASTER_SUBTYPE);
+      const MasterServiceClass = this.getServiceClass(device.masterSwitchType);
+      let masterService = accessory.getServiceById(MasterServiceClass, MASTER_SUBTYPE);
+
+      // If type changed, remove old service and create new one
       if (!masterService) {
-        masterService = accessory.addService(this.Service.Switch, 'Master', MASTER_SUBTYPE);
+        const oldMaster = accessory.services.find((s) => s.subtype === MASTER_SUBTYPE);
+        if (oldMaster) {
+          accessory.removeService(oldMaster);
+        }
+        masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
       }
 
       this.setServiceName(masterService, 'Master');

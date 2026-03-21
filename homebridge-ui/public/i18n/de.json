@@ -33,5 +33,6 @@
   "behaviorSingleDesc": "Es kann nur ein Schalter gleichzeitig eingeschaltet sein. Das Einschalten eines Schalters schaltet alle anderen automatisch aus.",
   "masterSwitch": "Hauptschalter",
   "masterSwitchDesc": "Fügt einen Hauptschalter hinzu, der alle Schalter auf einmal ein- oder ausschaltet.",
-  "switchSingular": "Schalter"
+  "switchSingular": "Schalter",
+  "masterSwitchType": "Hauptschaltertyp"
 }

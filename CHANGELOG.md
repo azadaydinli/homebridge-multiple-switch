@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.0-beta.4] - 2026-03-21
+
+### Added
+- Master switch type selection (Switch or Outlet) — appears when master switch is enabled
+- `masterSwitchType` config option
+
+### Changed
+- All devices and switches now start collapsed when config UI is opened
+- New devices/switches still open expanded when freshly added
+
 ## [1.6.0-beta.3] - 2026-03-21
 
 ### Fixed

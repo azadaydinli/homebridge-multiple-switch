@@ -185,14 +185,9 @@
     config.devices = [];
   }
 
-  // Track expand/collapse state
-  const expandedDevices = new Set(config.devices.map((_, i) => i));
+  // Track expand/collapse state — all collapsed by default
+  const expandedDevices = new Set();
   const expandedSwitches = new Set();
-  config.devices.forEach((dev, di) => {
-    (dev.switches || []).forEach((_, si) => {
-      expandedSwitches.add(`${di}_${si}`);
-    });
-  });
 
   const app = document.getElementById('app');
 
@@ -282,6 +277,19 @@
       input.addEventListener('change', () => {
         const di = parseInt(input.dataset.dev);
         config.devices[di].masterSwitch = input.checked;
+        if (!input.checked) {
+          delete config.devices[di].masterSwitchType;
+        }
+        render();
+        save();
+      });
+    });
+
+    // Master switch type
+    document.querySelectorAll('.master-type-field').forEach(input => {
+      input.addEventListener('change', () => {
+        const di = parseInt(input.dataset.dev);
+        config.devices[di].masterSwitchType = input.value;
         save();
       });
     });
@@ -403,6 +411,15 @@
                 <div class="desc" style="margin-bottom:0">${t.masterSwitchDesc || ''}</div>
               </div>
             </div>
+            ${dev.masterSwitch ? `
+            <div style="margin-top:12px">
+              <label>${t.masterSwitchType || 'Master Switch Type'}</label>
+              <select class="master-type-field" data-dev="${di}">
+                <option value="switch" ${dev.masterSwitchType === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
+                <option value="outlet" ${dev.masterSwitchType === 'outlet' || !dev.masterSwitchType ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
+              </select>
+            </div>
+            ` : ''}
           </div>
           ` : ''}
 

@@ -33,5 +33,6 @@
   "behaviorSingleDesc": "Apenas um interruptor pode estar ligado por vez. Ligar um desliga automaticamente todos os outros.",
   "masterSwitch": "Interruptor principal",
   "masterSwitchDesc": "Adiciona um interruptor principal que liga ou desliga todos os interruptores de uma só vez.",
-  "switchSingular": "interruptor"
+  "switchSingular": "interruptor",
+  "masterSwitchType": "Tipo de interruptor principal"
 }

@@ -33,5 +33,6 @@
   "behaviorSingleDesc": "한 번에 하나의 스위치만 켤 수 있습니다. 하나를 켜면 다른 모든 것이 자동으로 꺼집니다.",
   "masterSwitch": "마스터 스위치",
   "masterSwitchDesc": "모든 스위치를 한 번에 켜거나 끄는 마스터 스위치를 추가합니다.",
-  "switchSingular": "스위치"
+  "switchSingular": "스위치",
+  "masterSwitchType": "마스터 스위치 유형"
 }

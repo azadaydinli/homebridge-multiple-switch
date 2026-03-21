@@ -33,5 +33,6 @@
   "behaviorSingleDesc": "Er kan slechts één schakelaar tegelijk aan staan. Het inschakelen van één schakelaar schakelt alle andere automatisch uit.",
   "masterSwitch": "Hoofdschakelaar",
   "masterSwitchDesc": "Voegt een hoofdschakelaar toe die alle schakelaars in één keer in- of uitschakelt.",
-  "switchSingular": "schakelaar"
+  "switchSingular": "schakelaar",
+  "masterSwitchType": "Type hoofdschakelaar"
 }
