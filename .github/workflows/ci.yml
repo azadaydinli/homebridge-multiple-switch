@@ -11,31 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Repo-nu klonla
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: ⚙️ Node.js qur
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
-      - name: 📦 Asılılıqları qur
+      - name: Install dependencies
         run: npm install
 
-      - name: ✅ Kod yoxlaması (lint varsa)
-        run: |
-          if [ -f .eslintrc.js ] || [ -f .eslintrc.json ]; then
-            npm run lint
-          else
-            echo "Lint skripti tapılmadı, keçilir..."
-          fi
+      - name: Lint
+        run: npm run lint
 
-      - name: 🧪 Testləri icra et (əgər varsa)
-        run: |
-          if [ -f package.json ] && grep -q '\"test\"' package.json; then
-            npm test
-          else
-            echo "Test skripti yoxdur, keçilir..."
-          fi
-
+      - name: Test
+        run: npm test

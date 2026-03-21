@@ -1,4 +1,4 @@
-name: 📦 Publish to npm
+name: Publish to npm
 
 on:
   push:
@@ -10,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Repo-nu klonla
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: ⚙️ Node.js qur
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org/'
 
-      - name: 📦 Asılılıqları qur
+      - name: Install dependencies
         run: npm install
 
-      - name: 🚀 NPM-ə yüklə
+      - name: Publish to npm
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

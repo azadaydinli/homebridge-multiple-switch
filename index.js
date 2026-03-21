@@ -1,109 +1,160 @@
-// homebridge-multiple-switch: index.js (Platform plugin, bir Accessory, çox Service)
+'use strict';
 
-let Service, Characteristic, UUIDGen;
+const PLUGIN_NAME = 'homebridge-multiple-switch';
+const PLATFORM_NAME = 'MultipleSwitchPlatform';
+
+const SERVICE_TYPES = {
+  switch: 'Switch',
+  lightbulb: 'Lightbulb',
+  fan: 'Fan',
+  outlet: 'Outlet',
+};
 
 module.exports = (api) => {
-  Service = api.hap.Service;
-  Characteristic = api.hap.Characteristic;
-  UUIDGen = api.hap.uuid;
-
-  api.registerPlatform('MultipleSwitchPlatform', MultipleSwitchPlatform);
+  api.registerPlatform(PLATFORM_NAME, MultipleSwitchPlatform);
 };
 
 class MultipleSwitchPlatform {
   constructor(log, config, api) {
     this.log = log;
-    this.config = config;
+    this.config = config || {};
     this.api = api;
-    this.accessories = [];
+    this.Service = api.hap.Service;
+    this.Characteristic = api.hap.Characteristic;
+    this.cachedAccessories = new Map();
+    this.switchServices = new Map();
 
     this.api.on('didFinishLaunching', () => {
-      this.log('🔌 MultipleSwitchPlatform başladıldı.');
+      this.log.info('MultipleSwitchPlatform started.');
       this.setupAccessories();
     });
   }
 
-  setupAccessories() {
-    const switches = this.config.switches || [];
-    const behavior = this.config.switchBehavior || 'independent';
-    const name = this.config.name || 'Multiple Switch Panel';
-
-    const uuid = UUIDGen.generate(name);
-    const accessory = new this.api.platformAccessory(name, uuid);
-
-    accessory.context.switchStates = {};
-    accessory.context.switchServices = {};
-    accessory.context.switchBehavior = behavior;
-
-    switches.forEach((sw, index) => {
-      const id = `switch_${index}`;
-      const service = this.createSwitchService(accessory, sw, id);
-
-      accessory.addService(service);
-      accessory.context.switchStates[id] = sw.defaultState || false;
-      accessory.context.switchServices[id] = service;
-    });
-
-    this.api.registerPlatformAccessories(
-      'homebridge-multiple-switch',
-      'MultipleSwitchPlatform',
-      [accessory]
-    );
-    this.accessories.push(accessory);
+  configureAccessory(accessory) {
+    this.cachedAccessories.set(accessory.UUID, accessory);
   }
 
-  createSwitchService(accessory, sw, id) {
-    const ServiceType = this.getServiceClass(sw.type);
-    const service = new ServiceType(sw.name, id);
+  setupAccessories() {
+    const switches = this.config.switches;
+    if (!Array.isArray(switches) || switches.length === 0) {
+      this.log.warn('No switches configured. Removing stale accessories.');
+      this.removeStaleCachedAccessories();
+      return;
+    }
 
-    service.getCharacteristic(Characteristic.On)
-      .onGet(() => {
-        return accessory.context.switchStates[id];
-      })
+    const name = this.config.name || 'Multiple Switch Panel';
+    const behavior = this.config.switchBehavior || 'independent';
+    const uuid = this.api.hap.uuid.generate(name);
+
+    let accessory = this.cachedAccessories.get(uuid);
+    const isNew = !accessory;
+
+    if (isNew) {
+      accessory = new this.api.platformAccessory(name, uuid);
+    }
+
+    accessory.context.switchBehavior = behavior;
+    accessory.context.switchStates = accessory.context.switchStates || {};
+
+    this.reconcileServices(accessory, switches);
+
+    if (isNew) {
+      this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+    }
+
+    this.cachedAccessories.delete(uuid);
+    this.removeStaleCachedAccessories();
+  }
+
+  reconcileServices(accessory, switches) {
+    const activeSubtypes = new Set();
+
+    switches.forEach((sw, index) => {
+      const subtype = `switch_${index}`;
+      activeSubtypes.add(subtype);
+
+      const ServiceClass = this.getServiceClass(sw.type);
+      let service = accessory.getServiceById(ServiceClass, subtype);
+
+      if (!service) {
+        service = accessory.addService(ServiceClass, sw.name, subtype);
+      }
+
+      service.setCharacteristic(this.Characteristic.Name, sw.name);
+      this.configureSwitchHandlers(accessory, service, sw, subtype);
+
+      this.switchServices.set(subtype, service);
+
+      if (accessory.context.switchStates[subtype] === undefined) {
+        accessory.context.switchStates[subtype] = sw.defaultState || false;
+      }
+    });
+
+    const servicesToRemove = accessory.services.filter((s) => {
+      return s.subtype && !activeSubtypes.has(s.subtype);
+    });
+    servicesToRemove.forEach((s) => accessory.removeService(s));
+  }
+
+  configureSwitchHandlers(accessory, service, sw, subtype) {
+    service.getCharacteristic(this.Characteristic.On)
+      .onGet(() => accessory.context.switchStates[subtype] ?? false)
       .onSet((value) => {
+        accessory.context.switchStates[subtype] = value;
+        this.log.info(`[${sw.name}] ${value ? 'ON' : 'OFF'}`);
+
         const behavior = accessory.context.switchBehavior;
-        accessory.context.switchStates[id] = value;
-        this.log(`[${sw.name}] → ${value ? 'ON' : 'OFF'}`);
 
         if (behavior === 'single' && value) {
-          Object.keys(accessory.context.switchStates).forEach(key => {
-            if (key !== id) {
-              accessory.context.switchStates[key] = false;
-              accessory.context.switchServices[key].updateCharacteristic(Characteristic.On, false);
-            }
-          });
+          this.turnOffOthers(accessory, subtype);
         }
 
         if (behavior === 'master') {
-          Object.keys(accessory.context.switchStates).forEach(key => {
-            accessory.context.switchStates[key] = value;
-            accessory.context.switchServices[key].updateCharacteristic(Characteristic.On, value);
-          });
-        } else {
-          if (value && sw.delayOff > 0) {
-            setTimeout(() => {
-              accessory.context.switchStates[id] = false;
-              service.updateCharacteristic(Characteristic.On, false);
-              this.log(`[${sw.name}] auto-off after ${sw.delayOff}ms`);
-            }, sw.delayOff);
-          }
+          this.setAll(accessory, value);
+        }
+
+        if (value && sw.delayOff > 0) {
+          this.scheduleAutoOff(accessory, service, sw, subtype);
         }
       });
-
-    return service;
   }
 
-  getServiceClass(type) {
-    switch ((type || '').toLowerCase()) {
-      case 'switch': return Service.Switch;
-      case 'lightbulb': return Service.Lightbulb;
-      case 'fan': return Service.Fan;
-      case 'outlet':
-      default: return Service.Outlet;
+  turnOffOthers(accessory, excludeSubtype) {
+    for (const [key, svc] of this.switchServices) {
+      if (key !== excludeSubtype) {
+        accessory.context.switchStates[key] = false;
+        svc.updateCharacteristic(this.Characteristic.On, false);
+      }
     }
   }
 
-  configureAccessory(accessory) {
-    this.accessories.push(accessory);
+  setAll(accessory, value) {
+    for (const [key, svc] of this.switchServices) {
+      accessory.context.switchStates[key] = value;
+      svc.updateCharacteristic(this.Characteristic.On, value);
+    }
+  }
+
+  scheduleAutoOff(accessory, service, sw, subtype) {
+    setTimeout(() => {
+      if (accessory.context.switchStates[subtype]) {
+        accessory.context.switchStates[subtype] = false;
+        service.updateCharacteristic(this.Characteristic.On, false);
+        this.log.info(`[${sw.name}] auto-off after ${sw.delayOff}ms`);
+      }
+    }, sw.delayOff);
+  }
+
+  getServiceClass(type) {
+    const key = (type || 'outlet').toLowerCase();
+    const name = SERVICE_TYPES[key] || SERVICE_TYPES.outlet;
+    return this.Service[name];
+  }
+
+  removeStaleCachedAccessories() {
+    if (this.cachedAccessories.size === 0) return;
+    const stale = [...this.cachedAccessories.values()];
+    this.api.unregisterPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, stale);
+    this.cachedAccessories.clear();
   }
 }

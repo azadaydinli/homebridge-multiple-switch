@@ -5,26 +5,26 @@
 [![GitHub issues](https://img.shields.io/github/issues/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/issues)
 [![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
 
-A lightweight Homebridge plugin that lets you create multiple customizable dummy switches under a single accessory — configurable as `Switch`, `Outlet`, `Lightbulb`, or `Fan`.  
+A lightweight Homebridge plugin that lets you create multiple customizable dummy switches under a single accessory — configurable as `Switch`, `Outlet`, `Lightbulb`, or `Fan`.
 Supports `Independent`, `Master`, and `Single` switch modes.
 
 ---
 
-## ✨ Features
+## Features
 
 - Grouped multiple switches in one HomeKit tile
 - Accessory type: `switch`, `outlet`, `lightbulb`, or `fan`
 - **Independent Mode** – All switches operate separately
-- **Master Mode** – One master switch controls the rest
+- **Master Mode** – One switch controls all others
 - **Single Mode** – Only one switch can be active at a time
-- Per-switch config support (type, auto-off, default state)
-- Switch states are preserved after Homebridge restart
-- Fully dynamic config reload (no need to restart Homebridge)
+- Per-switch config support (type, auto-off delay, default state)
+- Switch states preserved across Homebridge restarts via cached accessories
+- Automatic cleanup of stale accessories on config change
 - Compatible with HomeKit and Siri
 
 ---
 
-## 📦 Installation
+## Installation
 
 Install via Homebridge UI:
 
@@ -40,20 +40,21 @@ npm install -g homebridge-multiple-switch
 
 ---
 
-## ⚙️ Configuration (Platform Mode)
+## Configuration
 
-Configure from Homebridge UI or manually edit `config.json` like below:
+Configure from Homebridge UI or manually edit `config.json`:
 
 ```json
 {
   "platform": "MultipleSwitchPlatform",
   "name": "Multiple Switches",
+  "switchBehavior": "single",
   "switches": [
     {
       "name": "Heater",
       "type": "outlet",
       "defaultState": true,
-      "autoTurnOff": 10000
+      "delayOff": 10000
     },
     {
       "name": "Fan",
@@ -62,35 +63,34 @@ Configure from Homebridge UI or manually edit `config.json` like below:
     {
       "name": "Light",
       "type": "lightbulb",
-      "autoTurnOff": 5000
+      "delayOff": 5000
     }
-  ],
-  "mode": "single"
+  ]
 }
 ```
 
 ---
 
-### 🔧 Configuration Options
+### Platform Options
 
-| Field           | Type    | Required | Description                                                             |
-|----------------|---------|----------|-------------------------------------------------------------------------|
-| `name`          | string  | ✅       | Name of the platform instance                                           |
-| `switches`      | array   | ✅       | List of switches to create                                              |
-| `mode`          | string  | ❌       | `independent`, `master`, or `single`                                    |
-| `type`          | string  | ❌       | Switch type: `switch`, `outlet`, `lightbulb`, `fan` (overridden per switch) |
-| `autoTurnOff`   | number  | ❌       | Global auto-off (ms) – can be overridden per switch                     |
-| `defaultState`  | boolean | ❌       | Default power state on restart – can be overridden per switch           |
+| Field            | Type   | Required | Description                          |
+|------------------|--------|----------|--------------------------------------|
+| `name`           | string | Yes      | Name of the platform instance        |
+| `switchBehavior` | string | No       | `independent`, `master`, or `single` |
+| `switches`       | array  | Yes      | List of switches to create           |
 
-Each object inside `switches[]` can include:  
-- `name`: Name of the switch  
-- `type`: Optional (`switch`, `outlet`, etc.)  
-- `autoTurnOff`: Optional (in ms)  
-- `defaultState`: Optional (true/false)
+### Per-Switch Options
+
+| Field          | Type    | Required | Description                                      |
+|----------------|---------|----------|--------------------------------------------------|
+| `name`         | string  | Yes      | Name of the switch                               |
+| `type`         | string  | No       | `switch`, `outlet`, `lightbulb`, or `fan`        |
+| `defaultState` | boolean | No       | Initial power state (default: `false`)           |
+| `delayOff`     | number  | No       | Auto turn off after N milliseconds (default: `0`) |
 
 ---
 
-## 📣 Example Use Cases
+## Example Use Cases
 
 - Simulate smart plugs for automation testing
 - Trigger HomeKit scenes manually
@@ -99,7 +99,7 @@ Each object inside `switches[]` can include:
 
 ---
 
-## 🔗 Links
+## Links
 
 - [NPM Package](https://www.npmjs.com/package/homebridge-multiple-switch)
 - [Homebridge](https://homebridge.io/)
@@ -107,6 +107,6 @@ Each object inside `switches[]` can include:
 
 ---
 
-## 📜 License
+## License
 
 MIT © [Azad Aydınlı](https://github.com/azadaydinli)

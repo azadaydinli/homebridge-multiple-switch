@@ -1,11 +1,15 @@
 {
   "name": "homebridge-multiple-switch",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Multiple switch platform for Homebridge",
   "homepage": "https://github.com/azadaydinli/homebridge-multiple-switch",
   "main": "index.js",
   "author": "Azad Aydınlı",
   "license": "ISC",
+  "scripts": {
+    "lint": "echo \"No linter configured\"",
+    "test": "echo \"No tests configured\""
+  },
   "bugs": {
     "url": "https://github.com/azadaydinli/homebridge-multiple-switch/issues"
   },
@@ -26,7 +30,7 @@
     "url": "https://github.com/azadaydinli/homebridge-multiple-switch.git"
   },
   "engines": {
-    "node": ">=14.17.0",
+    "node": ">=18.0.0",
     "homebridge": ">=1.3.0"
   }
 }
