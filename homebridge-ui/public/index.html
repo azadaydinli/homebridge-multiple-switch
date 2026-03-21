@@ -1,35 +1,55 @@
 <style>
+  :root {
+    --ui-bg: #fff;
+    --ui-text: #212529;
+    --ui-text-muted: #6c757d;
+    --ui-border: #dee2e6;
+    --ui-card-bg: #f8f9fa;
+    --ui-input-bg: #fff;
+    --ui-accent: #007bff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ui-bg: transparent;
+      --ui-text: #e1e1e1;
+      --ui-text-muted: #9e9e9e;
+      --ui-border: #444;
+      --ui-card-bg: rgba(255,255,255,0.06);
+      --ui-input-bg: rgba(255,255,255,0.08);
+      --ui-accent: #7b61ff;
+    }
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: var(--bs-body-color, inherit);
-    background: transparent !important;
+    color: var(--ui-text);
+    background: var(--ui-bg) !important;
   }
   .form-group { margin-bottom: 16px; }
   label {
     display: block; font-weight: 600; margin-bottom: 4px; font-size: 14px;
-    color: var(--bs-body-color, inherit);
+    color: var(--ui-text);
   }
   .desc {
-    color: var(--bs-secondary-color, #888);
+    color: var(--ui-text-muted);
     font-size: 12px; margin-bottom: 6px;
   }
   input[type="text"], input[type="number"], select {
     width: 100%; padding: 8px 10px;
-    border: 1px solid var(--bs-border-color, #444);
+    border: 1px solid var(--ui-border);
     border-radius: 6px; font-size: 14px;
-    background: var(--bs-body-bg, transparent);
-    color: var(--bs-body-color, inherit);
+    background: var(--ui-input-bg);
+    color: var(--ui-text);
     transition: border-color 0.2s;
   }
   input:focus, select:focus {
-    border-color: var(--bs-primary, #007bff);
+    border-color: var(--ui-accent);
     outline: none;
   }
   .switch-card {
-    border: 1px solid var(--bs-border-color, #444);
+    border: 1px solid var(--ui-border);
     border-radius: 8px; padding: 16px; margin-bottom: 12px;
-    background: var(--bs-tertiary-bg, rgba(128,128,128,0.08));
+    background: var(--ui-card-bg);
     position: relative;
   }
   .switch-card .switch-header {
@@ -37,7 +57,7 @@
   }
   .switch-card .switch-header strong {
     font-size: 14px;
-    color: var(--bs-body-color, inherit);
+    color: var(--ui-text);
   }
   .btn {
     padding: 8px 16px; border: none; border-radius: 6px;
@@ -45,21 +65,21 @@
   }
   .btn-danger { background: #dc3545; color: #fff; }
   .btn-danger:hover { background: #c82333; }
-  .btn-primary { background: var(--bs-primary, #007bff); color: #fff; }
+  .btn-primary { background: var(--ui-accent); color: #fff; }
   .btn-primary:hover { opacity: 0.85; }
   .actions { margin-top: 16px; display: flex; gap: 10px; }
   .toggle-wrap { display: flex; align-items: center; gap: 8px; }
-  .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--bs-primary, #007bff); }
-  .toggle-wrap span { color: var(--bs-body-color, inherit); }
+  .toggle-wrap input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ui-accent); }
+  .toggle-wrap span { color: var(--ui-text); }
   .section-title {
     font-size: 15px; font-weight: 700; margin-bottom: 10px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--bs-border-color, #444);
-    color: var(--bs-body-color, inherit);
+    padding-bottom: 6px; border-bottom: 1px solid var(--ui-border);
+    color: var(--ui-text);
   }
   .inline-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   select option {
-    background: var(--bs-body-bg, #fff);
-    color: var(--bs-body-color, #000);
+    background: var(--ui-input-bg);
+    color: var(--ui-text);
   }
 </style>
 

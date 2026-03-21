@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1] - 2026-03-21
+
+### Fixed
+- Dark mode: replaced Bootstrap CSS variables (not available inside iframe) with
+  custom `--ui-*` variables and `@media (prefers-color-scheme: dark)` for reliable
+  light/dark theme detection across all elements (cards, inputs, labels, borders)
+
 ## [1.4.0] - 2026-03-21
 
 ### Removed
