@@ -1,0 +1,46 @@
+{
+  "headerDisplay": "Multiple Switch Platform",
+  "schema": {
+    "name": {
+      "title": "Platform Name",
+      "description": "The name of this platform instance in HomeKit."
+    },
+    "switchBehavior": {
+      "title": "Switch Behavior Mode",
+      "description": "Controls how switches interact with each other.",
+      "oneOf": [
+        { "title": "Independent" },
+        { "title": "Master" },
+        { "title": "Single" }
+      ]
+    },
+    "switches": {
+      "title": "Switches",
+      "description": "List of virtual switches to create.",
+      "items": {
+        "name": {
+          "title": "Switch Name",
+          "description": "Display name of the switch in HomeKit."
+        },
+        "type": {
+          "title": "Switch Type",
+          "description": "The HomeKit accessory type for this switch.",
+          "oneOf": [
+            { "title": "Switch" },
+            { "title": "Outlet" },
+            { "title": "Lightbulb" },
+            { "title": "Fan" }
+          ]
+        },
+        "defaultState": {
+          "title": "Default State",
+          "description": "Initial power state when Homebridge starts."
+        },
+        "delayOff": {
+          "title": "Auto Turn Off (ms)",
+          "description": "Automatically turn off after this many milliseconds. Set to 0 to disable."
+        }
+      }
+    }
+  }
+}

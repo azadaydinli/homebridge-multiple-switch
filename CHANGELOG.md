@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1] - 2026-03-21
+
+### Added
+- i18n localization support for Homebridge UI config with 14 languages:
+  English, Turkish, German, French, Spanish, Portuguese, Italian, Russian,
+  Chinese (Simplified), Japanese, Korean, Polish, Dutch, Arabic
+- Descriptions added to all config.schema.json fields
+
 ## [1.3.0] - 2026-03-21
 
 ### Changed

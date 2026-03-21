@@ -1,0 +1,46 @@
+{
+  "headerDisplay": "マルチスイッチプラットフォーム",
+  "schema": {
+    "name": {
+      "title": "プラットフォーム名",
+      "description": "HomeKit でのこのプラットフォームインスタンスの名前。"
+    },
+    "switchBehavior": {
+      "title": "スイッチ動作モード",
+      "description": "スイッチ同士の相互作用を制御します。",
+      "oneOf": [
+        { "title": "独立" },
+        { "title": "マスター" },
+        { "title": "シングル" }
+      ]
+    },
+    "switches": {
+      "title": "スイッチ",
+      "description": "作成する仮想スイッチのリスト。",
+      "items": {
+        "name": {
+          "title": "スイッチ名",
+          "description": "HomeKit でのスイッチの表示名。"
+        },
+        "type": {
+          "title": "スイッチタイプ",
+          "description": "このスイッチの HomeKit アクセサリタイプ。",
+          "oneOf": [
+            { "title": "スイッチ" },
+            { "title": "コンセント" },
+            { "title": "電球" },
+            { "title": "ファン" }
+          ]
+        },
+        "defaultState": {
+          "title": "デフォルト状態",
+          "description": "Homebridge 起動時の初期電源状態。"
+        },
+        "delayOff": {
+          "title": "自動オフ（ミリ秒）",
+          "description": "指定したミリ秒後に自動的にオフになります。無効にするには 0 に設定してください。"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "headerDisplay": "Plateforme Multi-Interrupteurs",
+  "schema": {
+    "name": {
+      "title": "Nom de la plateforme",
+      "description": "Le nom de cette instance de plateforme dans HomeKit."
+    },
+    "switchBehavior": {
+      "title": "Mode de comportement",
+      "description": "Contrôle la façon dont les interrupteurs interagissent entre eux.",
+      "oneOf": [
+        { "title": "Indépendant" },
+        { "title": "Maître" },
+        { "title": "Unique" }
+      ]
+    },
+    "switches": {
+      "title": "Interrupteurs",
+      "description": "Liste des interrupteurs virtuels à créer.",
+      "items": {
+        "name": {
+          "title": "Nom de l'interrupteur",
+          "description": "Nom affiché de l'interrupteur dans HomeKit."
+        },
+        "type": {
+          "title": "Type d'interrupteur",
+          "description": "Le type d'accessoire HomeKit pour cet interrupteur.",
+          "oneOf": [
+            { "title": "Interrupteur" },
+            { "title": "Prise" },
+            { "title": "Ampoule" },
+            { "title": "Ventilateur" }
+          ]
+        },
+        "defaultState": {
+          "title": "État par défaut",
+          "description": "État d'alimentation initial au démarrage de Homebridge."
+        },
+        "delayOff": {
+          "title": "Arrêt automatique (ms)",
+          "description": "S'éteint automatiquement après ce nombre de millisecondes. Mettre à 0 pour désactiver."
+        }
+      }
+    }
+  }
+}

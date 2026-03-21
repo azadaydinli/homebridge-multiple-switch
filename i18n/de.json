@@ -1,0 +1,46 @@
+{
+  "headerDisplay": "Mehrfachschalter-Plattform",
+  "schema": {
+    "name": {
+      "title": "Plattformname",
+      "description": "Der Name dieser Plattforminstanz in HomeKit."
+    },
+    "switchBehavior": {
+      "title": "Schaltverhalten",
+      "description": "Steuert, wie die Schalter miteinander interagieren.",
+      "oneOf": [
+        { "title": "Unabhängig" },
+        { "title": "Master" },
+        { "title": "Einzeln" }
+      ]
+    },
+    "switches": {
+      "title": "Schalter",
+      "description": "Liste der zu erstellenden virtuellen Schalter.",
+      "items": {
+        "name": {
+          "title": "Schaltername",
+          "description": "Anzeigename des Schalters in HomeKit."
+        },
+        "type": {
+          "title": "Schaltertyp",
+          "description": "Der HomeKit-Zubehörtyp für diesen Schalter.",
+          "oneOf": [
+            { "title": "Schalter" },
+            { "title": "Steckdose" },
+            { "title": "Glühbirne" },
+            { "title": "Ventilator" }
+          ]
+        },
+        "defaultState": {
+          "title": "Standardzustand",
+          "description": "Anfänglicher Energiezustand beim Start von Homebridge."
+        },
+        "delayOff": {
+          "title": "Automatisch ausschalten (ms)",
+          "description": "Schaltet nach dieser Anzahl von Millisekunden automatisch aus. Zum Deaktivieren auf 0 setzen."
+        }
+      }
+    }
+  }
+}

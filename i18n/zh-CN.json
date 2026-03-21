@@ -1,0 +1,46 @@
+{
+  "headerDisplay": "多开关平台",
+  "schema": {
+    "name": {
+      "title": "平台名称",
+      "description": "此平台实例在 HomeKit 中的名称。"
+    },
+    "switchBehavior": {
+      "title": "开关行为模式",
+      "description": "控制开关之间的交互方式。",
+      "oneOf": [
+        { "title": "独立" },
+        { "title": "主控" },
+        { "title": "单选" }
+      ]
+    },
+    "switches": {
+      "title": "开关",
+      "description": "要创建的虚拟开关列表。",
+      "items": {
+        "name": {
+          "title": "开关名称",
+          "description": "开关在 HomeKit 中的显示名称。"
+        },
+        "type": {
+          "title": "开关类型",
+          "description": "此开关的 HomeKit 配件类型。",
+          "oneOf": [
+            { "title": "开关" },
+            { "title": "插座" },
+            { "title": "灯泡" },
+            { "title": "风扇" }
+          ]
+        },
+        "defaultState": {
+          "title": "默认状态",
+          "description": "Homebridge 启动时的初始电源状态。"
+        },
+        "delayOff": {
+          "title": "自动关闭（毫秒）",
+          "description": "在指定的毫秒数后自动关闭。设置为 0 以禁用。"
+        }
+      }
+    }
+  }
+}

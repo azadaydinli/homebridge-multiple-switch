@@ -7,11 +7,13 @@
     "properties": {
       "name": {
         "title": "Platform Name",
+        "description": "The name of this platform instance in HomeKit.",
         "type": "string",
         "default": "Multiple Switch Platform"
       },
       "switchBehavior": {
         "title": "Switch Behavior Mode",
+        "description": "Controls how switches interact with each other.",
         "type": "string",
         "default": "independent",
         "oneOf": [
@@ -22,16 +24,19 @@
       },
       "switches": {
         "title": "Switches",
+        "description": "List of virtual switches to create.",
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
             "name": {
               "title": "Switch Name",
+              "description": "Display name of the switch in HomeKit.",
               "type": "string"
             },
             "type": {
               "title": "Switch Type",
+              "description": "The HomeKit accessory type for this switch.",
               "type": "string",
               "default": "outlet",
               "oneOf": [
@@ -43,11 +48,13 @@
             },
             "defaultState": {
               "title": "Default State",
+              "description": "Initial power state when Homebridge starts.",
               "type": "boolean",
               "default": false
             },
             "delayOff": {
               "title": "Auto Turn Off (ms)",
+              "description": "Automatically turn off after this many milliseconds. Set to 0 to disable.",
               "type": "number",
               "default": 0,
               "minimum": 0
