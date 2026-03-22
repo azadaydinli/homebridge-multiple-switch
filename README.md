@@ -5,9 +5,8 @@
 # homebridge-multiple-switch
 
 [![verified-by-homebridge](https://img.shields.io/badge/homebridge-verified-blueviolet?color=%23491F59&style=flat&logoColor=%23FFFFFF&logo=homebridge)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
-![CI](https://github.com/azadaydinli/homebridge-multiple-switch/actions/workflows/ci.yml/badge.svg)
 [![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
-[![GitHub issues](https://img.shields.io/github/issues/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/issues)
+[![npm](https://img.shields.io/npm/dt/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
 
 A lightweight Homebridge plugin that lets you create multiple customizable dummy switches in HomeKit. Supports multi-device, master switch, and 14 languages.
