@@ -1,10 +1,12 @@
 # Changelog
 
-## [1.6.0-beta.8] - 2026-03-22
+## [1.6.0-beta.9] - 2026-03-22
 
 ### Fixed
 - Homebridge v2 compatibility — plugin now shows green checkmark in v2 readiness check
-- Switch ordering in HomeKit now follows config order using ServiceLabelIndex
+- Switch ordering in HomeKit — services are now linked to ServiceLabel with
+  ServiceLabelIndex for deterministic ordering (requires re-adding accessory in HomeKit
+  if previously cached)
 
 ### Changed
 - Master switch type now defaults to Switch instead of Outlet (both UI and backend)

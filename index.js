@@ -130,6 +130,7 @@ class MultipleSwitchPlatform {
     );
 
     let labelIndex = 1;
+    const orderedServices = [];
 
     // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
     if (hasMaster) {
@@ -142,6 +143,7 @@ class MultipleSwitchPlatform {
       this.configureMasterHandler(accessory, masterService, services);
 
       services.set(MASTER_SUBTYPE, masterService);
+      orderedServices.push(masterService);
 
       if (accessory.context.switchStates[MASTER_SUBTYPE] === undefined) {
         accessory.context.switchStates[MASTER_SUBTYPE] = false;
@@ -161,11 +163,20 @@ class MultipleSwitchPlatform {
       this.configureSwitchHandlers(accessory, service, sw, subtype, services);
 
       services.set(subtype, service);
+      orderedServices.push(service);
 
       if (accessory.context.switchStates[subtype] === undefined) {
         accessory.context.switchStates[subtype] = sw.defaultState || false;
       }
     });
+
+    // Link all services to ServiceLabel for HomeKit ordering
+    for (const svc of orderedServices) {
+      labelService.addLinkedService(svc);
+    }
+
+    // Log service order for debugging
+    this.log.info(`[${device.name}] Service order: ${orderedServices.map((s, i) => `${i + 1}. ${s.displayName}`).join(', ')}`);
 
     // Clean up states for removed switches
     const activeKeys = new Set(services.keys());
