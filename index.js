@@ -117,12 +117,28 @@ class MultipleSwitchPlatform {
     const subtypeServices = accessory.services.filter((s) => s.subtype);
     subtypeServices.forEach((s) => accessory.removeService(s));
 
+    // Remove existing ServiceLabel if present, then re-add to ensure ordering
+    const existingLabel = accessory.services.find(
+      (s) => s.UUID === this.Service.ServiceLabel.UUID
+    );
+    if (existingLabel) accessory.removeService(existingLabel);
+
+    const labelService = accessory.addService(this.Service.ServiceLabel);
+    labelService.setCharacteristic(
+      this.Characteristic.ServiceLabelNamespace,
+      this.Characteristic.ServiceLabelNamespace.ARABIC_NUMERALS
+    );
+
+    let labelIndex = 1;
+
     // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
     if (hasMaster) {
       const MasterServiceClass = this.getServiceClass(device.masterSwitchType || 'switch');
       const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
 
       this.setServiceName(masterService, 'Master');
+      masterService.addOptionalCharacteristic(this.Characteristic.ServiceLabelIndex);
+      masterService.setCharacteristic(this.Characteristic.ServiceLabelIndex, labelIndex++);
       this.configureMasterHandler(accessory, masterService, services);
 
       services.set(MASTER_SUBTYPE, masterService);
@@ -132,7 +148,7 @@ class MultipleSwitchPlatform {
       }
     }
 
-    // 2. Create regular switches in order
+    // 2. Create regular switches in config order
     switches.forEach((sw, index) => {
       const subtype = `switch_${index}`;
 
@@ -140,6 +156,8 @@ class MultipleSwitchPlatform {
       const service = accessory.addService(ServiceClass, sw.name, subtype);
 
       this.setServiceName(service, sw.name);
+      service.addOptionalCharacteristic(this.Characteristic.ServiceLabelIndex);
+      service.setCharacteristic(this.Characteristic.ServiceLabelIndex, labelIndex++);
       this.configureSwitchHandlers(accessory, service, sw, subtype, services);
 
       services.set(subtype, service);
