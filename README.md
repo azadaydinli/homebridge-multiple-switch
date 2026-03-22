@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://homebridge.io"><img src="https://raw.githubusercontent.com/homebridge/branding/master/logos/homebridge-wordmark-logo-horizontal.png" height="60"></a>
-  &nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/azadaydinli/homebridge-multiple-switch/master/logo.png" height="60">
+  <img src="https://raw.githubusercontent.com/azadaydinli/homebridge-multiple-switch/master/banner.png" width="600">
 </p>
 
 <span align="center">
