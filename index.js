@@ -113,17 +113,11 @@ class MultipleSwitchPlatform {
   }
 
   reconcileServices(accessory, device, switches, services, hasMaster) {
-    // Remove ALL existing subtype services (ensures fresh names and correct order)
+    // Remove ALL existing subtype services (ensures fresh names)
     const subtypeServices = accessory.services.filter((s) => s.subtype);
     subtypeServices.forEach((s) => accessory.removeService(s));
 
-    // Remove ServiceLabel if left over from previous version
-    const existingLabel = accessory.services.find(
-      (s) => s.UUID === this.Service.ServiceLabel.UUID
-    );
-    if (existingLabel) accessory.removeService(existingLabel);
-
-    // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
+    // Create master switch if enabled
     if (hasMaster) {
       const MasterServiceClass = this.getServiceClass(device.masterSwitchType || 'switch');
       const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
@@ -138,7 +132,7 @@ class MultipleSwitchPlatform {
       }
     }
 
-    // 2. Create regular switches in config order
+    // Create regular switches
     switches.forEach((sw, index) => {
       const subtype = `switch_${index}`;
 
