@@ -1,15 +1,21 @@
 <p align="center">
   <a href="https://homebridge.io"><img src="https://raw.githubusercontent.com/homebridge/branding/master/logos/homebridge-wordmark-logo-horizontal.png" height="60"></a>
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/azadaydinli/homebridge-multiple-switch/master/logo.png" height="60">
 </p>
 
-# homebridge-multiple-switch
+<span align="center">
 
-[![verified-by-homebridge](https://img.shields.io/badge/homebridge-verified-blueviolet?color=%23491F59&style=flat&logoColor=%23FFFFFF&logo=homebridge)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
+# Homebridge Multiple Switch
+
+A lightweight Homebridge plugin that lets you create multiple customizable dummy switches in HomeKit. Supports multi-device, master switch, and 14 languages.
+
+[![verified-by-homebridge](https://img.shields.io/badge/homebridge-verified-blueviolet?color=%23491F59&style=flat)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![npm](https://img.shields.io/npm/dt/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
 
-A lightweight Homebridge plugin that lets you create multiple customizable dummy switches in HomeKit. Supports multi-device, master switch, and 14 languages.
+</span>
 
 ---
 
