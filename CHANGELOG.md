@@ -1,65 +1,41 @@
 # Changelog
 
-## [1.6.0-beta.10] - 2026-03-22
-
-### Fixed
-- Homebridge v2 compatibility — plugin now shows green checkmark in v2 readiness check
-- Switch ordering in HomeKit now follows config order (services recreated in sequence)
-- Removed ServiceLabel/ServiceLabelIndex that caused outlets to render as toggles
-  instead of buttons
-
-### Changed
-- Master switch type now defaults to Switch instead of Outlet (both UI and backend)
-
-## [1.6.0-beta.5] - 2026-03-21
-
-### Fixed
-- Switch names now correctly appear in HomeKit — services are recreated on each
-  start with fresh displayName, Name, and ConfiguredName (cached services kept
-  stale names from initial creation)
-- Master switch now always appears first in HomeKit — all subtype services are
-  removed and recreated in correct order (master first, then switches)
-
-### Changed
-- Master switch type selector now inline with the toggle (same row)
-
-## [1.6.0-beta.4] - 2026-03-21
+## [1.6.0] - 2026-03-22
 
 ### Added
-- Master switch type selection (Switch or Outlet) — appears when master switch is enabled
-- `masterSwitchType` config option
+- Multi-device support: create multiple separate HomeKit accessories, each with
+  its own name, switch behavior mode, and set of switches
+- `devices` array in config — each device becomes a separate accessory in HomeKit
+- Master Switch option (available in Independent mode): adds an extra switch
+  that turns all switches on or off at once
+- Master switch type selection (Switch or Outlet)
+- Collapsible device and switch cards in config UI with chevron animation
+- Summary info shown when collapsed (switch count for devices, type/delay for switches)
+- i18n localization with 14 languages: English, Turkish, German, French, Spanish,
+  Portuguese, Italian, Russian, Chinese (Simplified), Japanese, Korean, Polish,
+  Dutch, Arabic
+- Custom UI (`homebridge-ui/public/`) with `homebridge.i18nCurrentLang()` for
+  proper language detection
+- Descriptions for both switch behavior modes (Independent / Single)
+- ConfiguredName characteristic for correct switch names in HomeKit
+- Homebridge v2 compatibility (`^2.0.0-beta.0` in engines)
 
 ### Changed
-- All devices and switches now start collapsed when config UI is opened
-- New devices/switches still open expanded when freshly added
-
-## [1.6.0-beta.3] - 2026-03-21
-
-### Fixed
-- Switch names now display correctly in HomeKit using `ConfiguredName`
-  characteristic (previously all showed the device name)
-- Master switch now always appears first in HomeKit (created before regular switches)
-
-## [1.6.0-beta.2] - 2026-03-21
+- Switch behavior now has two modes: Independent and Single (removed Master mode)
+- Master switch type defaults to Switch instead of Outlet
+- All devices and switches start collapsed when config UI is opened
+- Services are recreated on each start to ensure fresh names in HomeKit
 
 ### Fixed
-- Master Switch now available in Independent mode (was incorrectly in Single mode)
-- Behavior description now appears below the select dropdown instead of above
-
-## [1.6.0-beta.1] - 2026-03-21
+- Dark mode: custom `--ui-*` CSS variables with `@media (prefers-color-scheme: dark)`
+  for reliable theme support inside iframe
+- Switch names now correctly appear in HomeKit (cached services kept stale names)
+- Backward compatibility: old configs with `switches` at root level auto-migrate
+  to `devices` format
 
 ### Removed
-- Master switch behavior mode — replaced by a more useful master switch option
-  within Single mode
-
-### Changed
-- Switch behavior now only has two modes: Independent and Single
-- Added descriptions to both behavior modes explaining how they work
-
-### Added
-- Master Switch option (available in Single mode only): adds an extra switch
-  that turns all switches on or off at once
-- New i18n keys for behavior descriptions, master switch label/description
+- Lightbulb and Fan switch types (HomeKit natively converts switches to these)
+- Master behavior mode (replaced by Master Switch option in Independent mode)
 
 ## [1.5.1] - 2026-03-21
 
