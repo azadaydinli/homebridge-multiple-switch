@@ -117,20 +117,11 @@ class MultipleSwitchPlatform {
     const subtypeServices = accessory.services.filter((s) => s.subtype);
     subtypeServices.forEach((s) => accessory.removeService(s));
 
-    // Remove existing ServiceLabel if present, then re-add to ensure ordering
+    // Remove ServiceLabel if left over from previous version
     const existingLabel = accessory.services.find(
       (s) => s.UUID === this.Service.ServiceLabel.UUID
     );
     if (existingLabel) accessory.removeService(existingLabel);
-
-    const labelService = accessory.addService(this.Service.ServiceLabel);
-    labelService.setCharacteristic(
-      this.Characteristic.ServiceLabelNamespace,
-      this.Characteristic.ServiceLabelNamespace.ARABIC_NUMERALS
-    );
-
-    let labelIndex = 1;
-    const orderedServices = [];
 
     // 1. Create master switch FIRST if enabled (appears at top in HomeKit)
     if (hasMaster) {
@@ -138,12 +129,9 @@ class MultipleSwitchPlatform {
       const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
 
       this.setServiceName(masterService, 'Master');
-      masterService.addOptionalCharacteristic(this.Characteristic.ServiceLabelIndex);
-      masterService.setCharacteristic(this.Characteristic.ServiceLabelIndex, labelIndex++);
       this.configureMasterHandler(accessory, masterService, services);
 
       services.set(MASTER_SUBTYPE, masterService);
-      orderedServices.push(masterService);
 
       if (accessory.context.switchStates[MASTER_SUBTYPE] === undefined) {
         accessory.context.switchStates[MASTER_SUBTYPE] = false;
@@ -158,25 +146,14 @@ class MultipleSwitchPlatform {
       const service = accessory.addService(ServiceClass, sw.name, subtype);
 
       this.setServiceName(service, sw.name);
-      service.addOptionalCharacteristic(this.Characteristic.ServiceLabelIndex);
-      service.setCharacteristic(this.Characteristic.ServiceLabelIndex, labelIndex++);
       this.configureSwitchHandlers(accessory, service, sw, subtype, services);
 
       services.set(subtype, service);
-      orderedServices.push(service);
 
       if (accessory.context.switchStates[subtype] === undefined) {
         accessory.context.switchStates[subtype] = sw.defaultState || false;
       }
     });
-
-    // Link all services to ServiceLabel for HomeKit ordering
-    for (const svc of orderedServices) {
-      labelService.addLinkedService(svc);
-    }
-
-    // Log service order for debugging
-    this.log.info(`[${device.name}] Service order: ${orderedServices.map((s, i) => `${i + 1}. ${s.displayName}`).join(', ')}`);
 
     // Clean up states for removed switches
     const activeKeys = new Set(services.keys());
