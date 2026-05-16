@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/azadaydinli/homebridge-multiple-switch/master/banner.png" width="600">
+  <img src="https://raw.githubusercontent.com/azadaydinli/homebridge-multiple-switch/master/banner.svg" width="800">
 </p>
 
 <span align="center">

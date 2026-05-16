@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1433"/>
+      <stop offset="100%" stop-color="#0d1b3e"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.02)"/>
+    </linearGradient>
+    <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="1" fill="rgba(255,255,255,0.04)"/>
+    </pattern>
+    <filter id="gG" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gB" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gA" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark background with rounded corners — SVG canvas itself is transparent -->
+  <rect width="1200" height="360" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="360" rx="24" fill="url(#dots)"/>
+
+  <!-- Decorative rings (right side atmosphere) -->
+  <circle cx="1060" cy="180" r="320" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1.5"/>
+  <circle cx="1060" cy="180" r="220" fill="none" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+
+  <!-- ─── LEFT SIDE: Typography ─── -->
+
+  <!-- Homebridge badge -->
+  <rect x="60" y="62" width="210" height="30" rx="15" fill="rgba(73,31,89,0.55)" stroke="rgba(200,130,255,0.35)" stroke-width="1"/>
+  <circle cx="82" cy="77" r="5" fill="#c084e8"/>
+  <text x="152" y="82" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="13" fill="#c084e8" text-anchor="middle" font-weight="600" letter-spacing="0.4">homebridge plugin</text>
+
+  <!-- Plugin name -->
+  <text x="60" y="172" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="64" fill="white" font-weight="800" letter-spacing="-1.5">Multiple</text>
+  <text x="60" y="245" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="64" fill="white" font-weight="800" letter-spacing="-1.5">Switch</text>
+
+  <!-- Subtitle -->
+  <text x="60" y="283" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="18" fill="rgba(255,255,255,0.45)">Virtual multi-switch platform for HomeKit</text>
+
+  <!-- Feature pills -->
+  <rect x="60" y="305" width="118" height="26" rx="13" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.11)" stroke-width="1"/>
+  <text x="119" y="322" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="12" fill="rgba(255,255,255,0.65)" text-anchor="middle">14 languages</text>
+
+  <rect x="188" y="305" width="118" height="26" rx="13" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.11)" stroke-width="1"/>
+  <text x="247" y="322" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="12" fill="rgba(255,255,255,0.65)" text-anchor="middle">multi-device</text>
+
+  <rect x="316" y="305" width="130" height="26" rx="13" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.11)" stroke-width="1"/>
+  <text x="381" y="322" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="12" fill="rgba(255,255,255,0.65)" text-anchor="middle">Homebridge v2</text>
+
+  <!-- ─── RIGHT SIDE: Switch grid ─── -->
+
+  <!-- Dark panel behind switches -->
+  <rect x="690" y="38" width="456" height="284" rx="20" fill="url(#panelGrad)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- Connection lines from center hub to switches -->
+  <line x1="918" y1="180" x2="800" y2="108" stroke="rgba(0,255,136,0.22)" stroke-width="1.5" stroke-dasharray="4,5"/>
+  <line x1="918" y1="180" x2="1036" y2="108" stroke="rgba(0,212,255,0.22)" stroke-width="1.5" stroke-dasharray="4,5"/>
+  <line x1="918" y1="180" x2="800" y2="252" stroke="rgba(255,179,71,0.22)" stroke-width="1.5" stroke-dasharray="4,5"/>
+  <line x1="918" y1="180" x2="1036" y2="252" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" stroke-dasharray="4,5"/>
+
+  <!-- Center hub -->
+  <circle cx="918" cy="180" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.13)" stroke-width="1.5"/>
+  <circle cx="918" cy="180" r="18" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <!-- House icon -->
+  <path d="M910,185 L918,176 L926,185 L926,192 L922,192 L922,187 L914,187 L914,192 L910,192 Z" fill="rgba(255,255,255,0.72)"/>
+
+  <!-- Switch 1 — Top-Left — Green ON -->
+  <g filter="url(#gG)">
+    <circle cx="800" cy="108" r="8" fill="#00ff88" opacity="0.45"/>
+  </g>
+  <circle cx="800" cy="108" r="48" fill="rgba(0,255,136,0.07)" stroke="rgba(0,255,136,0.32)" stroke-width="1.5"/>
+  <circle cx="800" cy="108" r="32" fill="rgba(0,255,136,0.1)" stroke="rgba(0,255,136,0.52)" stroke-width="1.5"/>
+  <line x1="800" y1="93" x2="800" y2="103" stroke="#00ff88" stroke-width="3" stroke-linecap="round"/>
+  <path d="M788,101 A15,15 0 1,0 812,101" fill="none" stroke="#00ff88" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Switch 2 — Top-Right — Blue ON -->
+  <g filter="url(#gB)">
+    <circle cx="1036" cy="108" r="8" fill="#00d4ff" opacity="0.45"/>
+  </g>
+  <circle cx="1036" cy="108" r="48" fill="rgba(0,212,255,0.07)" stroke="rgba(0,212,255,0.32)" stroke-width="1.5"/>
+  <circle cx="1036" cy="108" r="32" fill="rgba(0,212,255,0.1)" stroke="rgba(0,212,255,0.52)" stroke-width="1.5"/>
+  <line x1="1036" y1="93" x2="1036" y2="103" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1024,101 A15,15 0 1,0 1048,101" fill="none" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Switch 3 — Bottom-Left — Amber ON -->
+  <g filter="url(#gA)">
+    <circle cx="800" cy="252" r="8" fill="#ffb347" opacity="0.45"/>
+  </g>
+  <circle cx="800" cy="252" r="48" fill="rgba(255,179,71,0.07)" stroke="rgba(255,179,71,0.32)" stroke-width="1.5"/>
+  <circle cx="800" cy="252" r="32" fill="rgba(255,179,71,0.1)" stroke="rgba(255,179,71,0.52)" stroke-width="1.5"/>
+  <line x1="800" y1="237" x2="800" y2="247" stroke="#ffb347" stroke-width="3" stroke-linecap="round"/>
+  <path d="M788,245 A15,15 0 1,0 812,245" fill="none" stroke="#ffb347" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Switch 4 — Bottom-Right — OFF (dimmed) -->
+  <circle cx="1036" cy="252" r="48" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+  <circle cx="1036" cy="252" r="32" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.11)" stroke-width="1"/>
+  <line x1="1036" y1="237" x2="1036" y2="247" stroke="rgba(255,255,255,0.17)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M1024,245 A15,15 0 1,0 1048,245" fill="none" stroke="rgba(255,255,255,0.17)" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
