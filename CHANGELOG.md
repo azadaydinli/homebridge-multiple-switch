@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.7.0-beta.10] - 2026-05-17
+## [1.7.0] - 2026-05-17
 
 ### Fixed
 - Auto-off timer leak: rapidly toggling a switch no longer accumulates stale timeouts — each new auto-off cancels the previous one
