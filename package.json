@@ -1,7 +1,7 @@
 {
   "name": "homebridge-multiple-switch",
   "version": "1.7.0",
-  "description": "Multiple switch platform for Homebridge",
+  "description": "Verified Homebridge plugin to create multiple customizable dummy Switch or Outlet accessories in HomeKit. Supports multi-device, master switch, auto-off timer, and 14 languages.",
   "homepage": "https://github.com/azadaydinli/homebridge-multiple-switch",
   "main": "index.js",
   "author": "Azad Aydınlı",
@@ -19,11 +19,30 @@
     "homekit",
     "switch",
     "outlet",
-    "lightbulb",
-    "fan",
     "dummy",
     "multiple",
-    "platform"
+    "platform",
+    "virtual-switch",
+    "dummy-switch",
+    "master-switch",
+    "multi-switch",
+    "smart-home",
+    "home-automation",
+    "automation",
+    "scene",
+    "virtual",
+    "independent",
+    "single"
+  ],
+  "funding": [
+    {
+      "type": "ko_fi",
+      "url": "https://ko-fi.com/azadaydinli"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/azadaydinli"
+    }
   ],
   "repository": {
     "type": "git",
