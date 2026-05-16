@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.0-beta.5] - 2026-05-17
+
+### Changed
+- Switch fields (Switch Name, Auto Turn Off, Default State) now use the same 3-equal-column grid as device fields
+
 ## [1.7.0-beta.4] - 2026-05-17
 
 ### Changed
