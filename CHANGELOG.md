@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0-beta.6] - 2026-05-17
+
+### Changed
+- Master Switch now uses the device-level switch type automatically — separate type selector removed
+
+### Removed
+- Master Switch Type selector from UI and schema (`masterSwitchType` config field is no longer used)
+
 ## [1.7.0-beta.5] - 2026-05-17
 
 ### Changed

@@ -46,7 +46,7 @@
             },
             "masterSwitch": {
               "title": "Master Switch",
-              "description": "Add a master switch that turns all switches on or off at once. Only available in Single mode.",
+              "description": "Add a master switch that turns all switches on or off at once. Uses the same type as the device.",
               "type": "boolean",
               "default": false
             },

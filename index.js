@@ -119,7 +119,7 @@ class MultipleSwitchPlatform {
 
     // Create master switch if enabled
     if (hasMaster) {
-      const MasterServiceClass = this.getServiceClass(device.masterSwitchType || 'switch');
+      const MasterServiceClass = this.getServiceClass(device.switchType || 'outlet');
       const masterService = accessory.addService(MasterServiceClass, 'Master', MASTER_SUBTYPE);
 
       this.setServiceName(masterService, 'Master');
