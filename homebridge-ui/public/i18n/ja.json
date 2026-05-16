@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "同時に1つのスイッチのみオンにできます。1つをオンにすると他はすべて自動的にオフになります。",
   "masterSwitch": "マスタースイッチ",
   "masterSwitchDesc": "すべてのスイッチを一度にオン/オフするマスタースイッチを追加します。",
-  "switchSingular": "スイッチ",
-  "masterSwitchType": "マスタースイッチタイプ"
+  "switchSingular": "スイッチ"
 }

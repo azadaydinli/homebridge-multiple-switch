@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Solo un interruptor puede estar encendido a la vez. Encender uno apaga automáticamente todos los demás.",
   "masterSwitch": "Interruptor maestro",
   "masterSwitchDesc": "Agrega un interruptor maestro que enciende o apaga todos los interruptores a la vez.",
-  "switchSingular": "interruptor",
-  "masterSwitchType": "Tipo de interruptor maestro"
+  "switchSingular": "interruptor"
 }

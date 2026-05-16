@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "同一时间只能有一个开关处于打开状态。打开一个会自动关闭所有其他开关。",
   "masterSwitch": "主开关",
   "masterSwitchDesc": "添加一个主开关，可以一次性打开或关闭所有开关。",
-  "switchSingular": "开关",
-  "masterSwitchType": "主开关类型"
+  "switchSingular": "开关"
 }

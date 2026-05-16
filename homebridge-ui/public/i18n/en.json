@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Only one switch can be on at a time. Turning one on automatically turns off all others.",
   "masterSwitch": "Master Switch",
   "masterSwitchDesc": "Adds a master switch that turns all switches on or off at once.",
-  "switchSingular": "switch",
-  "masterSwitchType": "Master Switch Type"
+  "switchSingular": "switch"
 }

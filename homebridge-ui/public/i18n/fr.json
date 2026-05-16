@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Un seul interrupteur peut être activé à la fois. En activer un désactive automatiquement tous les autres.",
   "masterSwitch": "Interrupteur principal",
   "masterSwitchDesc": "Ajoute un interrupteur principal qui active ou désactive tous les interrupteurs en une seule fois.",
-  "switchSingular": "interrupteur",
-  "masterSwitchType": "Type d'interrupteur principal"
+  "switchSingular": "interrupteur"
 }

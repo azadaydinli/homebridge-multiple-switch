@@ -233,7 +233,8 @@
       config.devices.push({
         name: '',
         switchBehavior: 'independent',
-        switches: [{ name: '', type: 'outlet', defaultState: false, delayOff: 0 }],
+        switchType: 'outlet',
+        switches: [{ name: '', defaultState: false, delayOff: 0 }],
       });
       expandedDevices.add(di);
       expandedSwitches.add(`${di}_0`);
@@ -311,7 +312,7 @@
       btn.addEventListener('click', () => {
         const di = parseInt(btn.dataset.dev);
         const si = config.devices[di].switches.length;
-        config.devices[di].switches.push({ name: '', type: 'outlet', defaultState: false, delayOff: 0 });
+        config.devices[di].switches.push({ name: '', defaultState: false, delayOff: 0 });
         expandedSwitches.add(`${di}_${si}`);
         render();
         save();

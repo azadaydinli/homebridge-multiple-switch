@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0-beta.7] - 2026-05-17
+
+### Fixed
+- `"type"` removed from switch schema `required` array (field no longer exists at switch level)
+- New devices and switches no longer include stale `type` field on creation
+- Removed unused `masterSwitchType` key from all 14 i18n locale files
+
 ## [1.7.0-beta.6] - 2026-05-17
 
 ### Changed

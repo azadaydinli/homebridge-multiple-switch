@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Aynı anda yalnızca bir anahtar açık olabilir. Birini açmak diğerlerini otomatik kapatır.",
   "masterSwitch": "Ana Anahtar",
   "masterSwitchDesc": "Tüm anahtarları tek seferde açan veya kapatan bir ana anahtar ekler.",
-  "switchSingular": "anahtar",
-  "masterSwitchType": "Ana Anahtar Tipi"
+  "switchSingular": "anahtar"
 }

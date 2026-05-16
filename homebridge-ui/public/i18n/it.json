@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Solo un interruttore può essere acceso alla volta. Accenderne uno spegne automaticamente tutti gli altri.",
   "masterSwitch": "Interruttore principale",
   "masterSwitchDesc": "Aggiunge un interruttore principale che accende o spegne tutti gli interruttori contemporaneamente.",
-  "switchSingular": "interruttore",
-  "masterSwitchType": "Tipo di interruttore principale"
+  "switchSingular": "interruttore"
 }

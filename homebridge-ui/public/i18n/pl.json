@@ -33,6 +33,5 @@
   "behaviorSingleDesc": "Tylko jeden przełącznik może być włączony jednocześnie. Włączenie jednego automatycznie wyłącza wszystkie pozostałe.",
   "masterSwitch": "Przełącznik główny",
   "masterSwitchDesc": "Dodaje przełącznik główny, który włącza lub wyłącza wszystkie przełączniki jednocześnie.",
-  "switchSingular": "przełącznik",
-  "masterSwitchType": "Typ przełącznika głównego"
+  "switchSingular": "przełącznik"
 }
