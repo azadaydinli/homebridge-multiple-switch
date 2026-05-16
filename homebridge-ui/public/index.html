@@ -470,21 +470,21 @@
           </div>
         </div>
         <div class="switch-body ${isOpen ? '' : 'collapsed'}">
-          <div class="inline-row">
-            <div class="form-group">
+          <div class="inline-row" style="grid-template-columns: 1fr 1fr auto; align-items: end;">
+            <div class="form-group" style="margin-bottom:0">
               <label>${t.switchName || 'Switch Name'}</label>
               <input type="text" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="name" value="${esc(sw.name || '')}">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom:0">
               <label>${t.delayOff || 'Auto Turn Off (ms)'}</label>
               <input type="number" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="delayOff" min="0" value="${sw.delayOff || 0}">
             </div>
-          </div>
-          <div class="form-group">
-            <label>${t.defaultState || 'Default State'}</label>
-            <div class="toggle-wrap" style="margin-top:6px">
-              <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
-              <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
+            <div class="form-group" style="margin-bottom:0">
+              <label>${t.defaultState || 'Default State'}</label>
+              <div class="toggle-wrap" style="margin-top:6px; padding-bottom:9px">
+                <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
+                <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
+              </div>
             </div>
           </div>
         </div>
