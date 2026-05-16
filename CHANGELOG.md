@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.0-beta.3] - 2026-05-17
+
+### Changed
+- Switch card: Switch Name, Auto Turn Off and Default State are now on a single compact row
+
 ## [1.7.0-beta.2] - 2026-05-17
 
 ### Fixed
