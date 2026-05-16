@@ -23,6 +23,7 @@ class MultipleSwitchPlatform {
     this.Characteristic = api.hap.Characteristic;
     this.cachedAccessories = new Map();
     this.deviceServices = new Map();
+    this.autoOffTimers = new Map();
 
     this.api.on('didFinishLaunching', () => {
       this.log.info('MultipleSwitchPlatform started.');
@@ -77,6 +78,10 @@ class MultipleSwitchPlatform {
     const behavior = device.switchBehavior || 'independent';
     const hasMaster = behavior === 'independent' && device.masterSwitch === true;
     const uuid = this.api.hap.uuid.generate(name);
+
+    if (this.deviceServices.has(uuid)) {
+      this.log.warn(`Duplicate device name "${name}" detected. Each device must have a unique name.`);
+    }
 
     let accessory = this.cachedAccessories.get(uuid);
     const isNew = !accessory;
@@ -212,13 +217,19 @@ class MultipleSwitchPlatform {
   }
 
   scheduleAutoOff(accessory, service, sw, subtype) {
-    setTimeout(() => {
+    const timerKey = `${accessory.UUID}_${subtype}`;
+    if (this.autoOffTimers.has(timerKey)) {
+      clearTimeout(this.autoOffTimers.get(timerKey));
+    }
+    const timer = setTimeout(() => {
+      this.autoOffTimers.delete(timerKey);
       if (accessory.context.switchStates[subtype]) {
         accessory.context.switchStates[subtype] = false;
         service.updateCharacteristic(this.Characteristic.On, false);
         this.log.info(`[${sw.name}] auto-off after ${sw.delayOff}ms`);
       }
     }, sw.delayOff);
+    this.autoOffTimers.set(timerKey, timer);
   }
 
   getServiceClass(type) {

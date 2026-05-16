@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.0-beta.10] - 2026-05-17
+
+### Fixed
+- Auto-off timer leak: rapidly toggling a switch no longer accumulates stale timeouts — each new auto-off cancels the previous one
+- Duplicate device name now logs a clear warning instead of silently causing UUID collision
+
 ## [1.7.0-beta.9] - 2026-05-17
 
 ### Changed
