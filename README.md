@@ -6,10 +6,11 @@
 
 # Homebridge Multiple Switch
 
-A lightweight Homebridge plugin that lets you create multiple customizable dummy switches in HomeKit. Supports multi-device, master switch, and 14 languages.
+A lightweight Homebridge plugin that lets you create multiple customizable dummy switches in HomeKit. Supports multi-device, master switch, configurable default states, and 14 languages.
 
 [![verified-by-homebridge](https://img.shields.io/badge/homebridge-verified-blueviolet?color=%23491F59&style=flat)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
+[![npm](https://img.shields.io/npm/dw/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![npm](https://img.shields.io/npm/dt/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![GitHub license](https://img.shields.io/github/license/azadaydinli/homebridge-multiple-switch)](https://github.com/azadaydinli/homebridge-multiple-switch/blob/master/LICENSE)
 
@@ -20,15 +21,15 @@ A lightweight Homebridge plugin that lets you create multiple customizable dummy
 ## Features
 
 - **Multi-device support** — create multiple separate HomeKit accessories
-- Accessory type: `switch` or `outlet`
-- **Independent Mode** – All switches operate separately
-- **Single Mode** – Only one switch can be active at a time
-- **Master Switch** (Independent mode) — one switch controls all others
-- Per-switch config support (type, auto-off delay, default state)
+- **Device-level switch type** — set `switch` or `outlet` once per device; all switches inherit it
+- **Independent Mode** — all switches operate separately
+- **Single Mode** — only one switch can be active at a time
+- **Master Switch** (Independent mode) — one switch controls all others, uses the device type
+- Per-switch config: auto-off delay and flexible default state
+- **Default State** per switch: Remember Last State / Always On / Always Off
 - Collapsible config UI with dark mode support
 - i18n localization (14 languages)
 - Homebridge v2 compatible
-- Switch states preserved across restarts via cached accessories
 - Compatible with HomeKit and Siri
 
 ---
@@ -51,7 +52,7 @@ npm install -g homebridge-multiple-switch
 
 ## Configuration
 
-Configure from Homebridge UI or manually edit `config.json`:
+Configure from the Homebridge UI or manually edit `config.json`:
 
 ```json
 {
@@ -61,18 +62,17 @@ Configure from Homebridge UI or manually edit `config.json`:
     {
       "name": "Living Room",
       "switchBehavior": "independent",
+      "switchType": "outlet",
       "masterSwitch": true,
-      "masterSwitchType": "switch",
       "switches": [
         {
           "name": "Lamp",
-          "type": "outlet",
-          "defaultState": false,
+          "defaultState": "remember",
           "delayOff": 0
         },
         {
           "name": "Heater",
-          "type": "switch",
+          "defaultState": "off",
           "delayOff": 10000
         }
       ]
@@ -80,15 +80,10 @@ Configure from Homebridge UI or manually edit `config.json`:
     {
       "name": "Bedroom",
       "switchBehavior": "single",
+      "switchType": "switch",
       "switches": [
-        {
-          "name": "Scene 1",
-          "type": "switch"
-        },
-        {
-          "name": "Scene 2",
-          "type": "switch"
-        }
+        { "name": "Scene 1", "defaultState": "remember" },
+        { "name": "Scene 2", "defaultState": "remember" }
       ]
     }
   ]
@@ -106,22 +101,29 @@ Configure from Homebridge UI or manually edit `config.json`:
 
 ### Device Options
 
-| Field              | Type    | Required | Description                                     |
-|--------------------|---------|----------|-------------------------------------------------|
-| `name`             | string  | Yes      | Device name (becomes HomeKit accessory name)     |
-| `switchBehavior`   | string  | No       | `independent` or `single` (default: independent) |
-| `masterSwitch`     | boolean | No       | Enable master switch (Independent mode only)     |
-| `masterSwitchType` | string  | No       | `switch` or `outlet` (default: switch)           |
-| `switches`         | array   | Yes      | List of switches for this device                 |
+| Field            | Type    | Required | Default         | Description                                      |
+|------------------|---------|----------|-----------------|--------------------------------------------------|
+| `name`           | string  | Yes      | —               | Device name (becomes the HomeKit accessory name) |
+| `switchBehavior` | string  | No       | `independent`   | `independent` or `single`                        |
+| `switchType`     | string  | No       | `outlet`        | `switch` or `outlet` — applies to all switches   |
+| `masterSwitch`   | boolean | No       | `false`         | Adds a master switch (Independent mode only)     |
+| `switches`       | array   | Yes      | —               | List of switches for this device                 |
 
 ### Per-Switch Options
 
-| Field          | Type    | Required | Description                                       |
-|----------------|---------|----------|---------------------------------------------------|
-| `name`         | string  | Yes      | Name of the switch                                |
-| `type`         | string  | No       | `switch` or `outlet` (default: outlet)            |
-| `defaultState` | boolean | No       | Initial power state (default: `false`)            |
-| `delayOff`     | number  | No       | Auto turn off after N milliseconds (default: `0`) |
+| Field          | Type   | Required | Default    | Description                                        |
+|----------------|--------|----------|------------|----------------------------------------------------|
+| `name`         | string | Yes      | —          | Display name of the switch                         |
+| `defaultState` | string | No       | `remember` | `remember`, `on`, or `off` (see below)             |
+| `delayOff`     | number | No       | `0`        | Auto turn off after N milliseconds (`0` = disabled)|
+
+#### Default State options
+
+| Value      | Behaviour                                          |
+|------------|----------------------------------------------------|
+| `remember` | Keeps the last known state across Homebridge restarts |
+| `on`       | Always starts ON on every restart                  |
+| `off`      | Always starts OFF on every restart                 |
 
 ---
 
