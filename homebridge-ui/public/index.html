@@ -414,11 +414,11 @@
             </div>
             <div class="form-group">
               <label>${t.switchType || 'Switch Type'}</label>
-              <div class="desc">${t.switchTypeDesc || ''}</div>
               <select class="dev-field" data-dev="${di}" data-field="switchType">
                 <option value="outlet" ${!dev.switchType || dev.switchType === 'outlet' ? 'selected' : ''}>${t.typeOutlet || 'Outlet'}</option>
                 <option value="switch" ${dev.switchType === 'switch' ? 'selected' : ''}>${t.typeSwitch || 'Switch'}</option>
               </select>
+              <div class="desc" style="margin-top:6px">${t.switchTypeDesc || ''}</div>
             </div>
           </div>
 
