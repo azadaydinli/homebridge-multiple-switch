@@ -145,9 +145,7 @@ class MultipleSwitchPlatform {
 
       services.set(subtype, service);
 
-      if (accessory.context.switchStates[subtype] === undefined) {
-        accessory.context.switchStates[subtype] = sw.defaultState || false;
-      }
+      accessory.context.switchStates[subtype] = sw.defaultState || false;
     });
 
     // Clean up states for removed switches

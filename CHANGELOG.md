@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.0-beta.8] - 2026-05-17
+
+### Changed
+- Default State now applies on every Homebridge restart, not just on first creation — switches always start in their configured default state
+
 ## [1.7.0-beta.7] - 2026-05-17
 
 ### Fixed
