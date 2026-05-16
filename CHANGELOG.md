@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.0-beta.4] - 2026-05-17
+
+### Changed
+- Auto Turn Off column narrowed to 120px so Default State checkbox has more breathing room
+
 ## [1.7.0-beta.3] - 2026-05-17
 
 ### Changed
