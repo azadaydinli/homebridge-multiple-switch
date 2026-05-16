@@ -148,6 +148,7 @@ Configure from the Homebridge UI or manually edit `config.json`:
 
 If this plugin is useful to you, consider supporting its development:
 
+[![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/azadaydinli)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?logo=github)](https://github.com/sponsors/azadaydinli)
 
 ---
