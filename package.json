@@ -1,6 +1,6 @@
 {
   "name": "homebridge-multiple-switch",
-  "version": "1.7.0-beta.1",
+  "version": "1.7.0-beta.2",
   "description": "Multiple switch platform for Homebridge",
   "homepage": "https://github.com/azadaydinli/homebridge-multiple-switch",
   "main": "index.js",

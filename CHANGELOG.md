@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.7.0-beta.2] - 2026-05-17
+
+### Fixed
+- Switch Type description now appears below the dropdown, consistent with Switch Behavior Mode
+
 ## [1.7.0-beta.1] - 2026-05-17
 
 ### Changed
