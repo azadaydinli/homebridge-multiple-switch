@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.0-beta.9] - 2026-05-17
+
+### Changed
+- Default State is now a 3-option dropdown: **Remember Last State** / **On** / **Off**
+  - Remember: keeps the last known state across restarts (new default)
+  - On: always starts ON on every Homebridge restart
+  - Off: always starts OFF on every Homebridge restart
+- Backward compatible: old boolean `true`/`false` configs still work correctly
+
 ## [1.7.0-beta.8] - 2026-05-17
 
 ### Changed

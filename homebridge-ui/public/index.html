@@ -234,7 +234,7 @@
         name: '',
         switchBehavior: 'independent',
         switchType: 'outlet',
-        switches: [{ name: '', defaultState: false, delayOff: 0 }],
+        switches: [{ name: '', defaultState: 'remember', delayOff: 0 }],
       });
       expandedDevices.add(di);
       expandedSwitches.add(`${di}_0`);
@@ -312,7 +312,7 @@
       btn.addEventListener('click', () => {
         const di = parseInt(btn.dataset.dev);
         const si = config.devices[di].switches.length;
-        config.devices[di].switches.push({ name: '', defaultState: false, delayOff: 0 });
+        config.devices[di].switches.push({ name: '', defaultState: 'remember', delayOff: 0 });
         expandedSwitches.add(`${di}_${si}`);
         render();
         save();
@@ -337,7 +337,7 @@
         const si = parseInt(input.dataset.sw);
         const field = input.dataset.field;
         if (field === 'defaultState') {
-          config.devices[di].switches[si][field] = input.checked;
+          config.devices[di].switches[si][field] = input.value;
         } else if (field === 'delayOff') {
           config.devices[di].switches[si][field] = parseInt(input.value) || 0;
         } else {
@@ -438,6 +438,8 @@
     const isOpen = expandedSwitches.has(`${di}_${si}`);
     const swLabel = sw.name || `#${si + 1}`;
     const typeLabel = deviceSwitchType === 'switch' ? (t.typeSwitch || 'Switch') : (t.typeOutlet || 'Outlet');
+    const ds = sw.defaultState;
+    const dsValue = (ds === true || ds === 'on') ? 'on' : (ds === false || ds === 'off') ? 'off' : 'remember';
 
     return `
       <div class="switch-card">
@@ -463,10 +465,11 @@
             </div>
             <div class="form-group" style="margin-bottom:0">
               <label>${t.defaultState || 'Default State'}</label>
-              <div class="toggle-wrap" style="margin-top:6px; padding-bottom:9px">
-                <input type="checkbox" class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState" ${sw.defaultState ? 'checked' : ''}>
-                <span>${sw.defaultState ? (t.on || 'On') : (t.off || 'Off')}</span>
-              </div>
+              <select class="sw-field" data-dev="${di}" data-sw="${si}" data-field="defaultState">
+                <option value="remember" ${dsValue === 'remember' ? 'selected' : ''}>${t.remember || 'Remember'}</option>
+                <option value="on" ${dsValue === 'on' ? 'selected' : ''}>${t.on || 'On'}</option>
+                <option value="off" ${dsValue === 'off' ? 'selected' : ''}>${t.off || 'Off'}</option>
+              </select>
             </div>
           </div>
         </div>

@@ -64,9 +64,14 @@
                   },
                   "defaultState": {
                     "title": "Default State",
-                    "description": "Initial power state when Homebridge starts.",
-                    "type": "boolean",
-                    "default": false
+                    "description": "Switch state on every Homebridge restart.",
+                    "type": "string",
+                    "default": "remember",
+                    "oneOf": [
+                      { "title": "Remember Last State", "enum": ["remember"] },
+                      { "title": "On", "enum": ["on"] },
+                      { "title": "Off", "enum": ["off"] }
+                    ]
                   },
                   "delayOff": {
                     "title": "Auto Turn Off (ms)",
