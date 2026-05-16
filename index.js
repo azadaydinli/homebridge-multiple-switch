@@ -133,10 +133,11 @@ class MultipleSwitchPlatform {
     }
 
     // Create regular switches
+    const switchType = device.switchType || (switches[0] && switches[0].type) || 'outlet';
     switches.forEach((sw, index) => {
       const subtype = `switch_${index}`;
 
-      const ServiceClass = this.getServiceClass(sw.type);
+      const ServiceClass = this.getServiceClass(switchType);
       const service = accessory.addService(ServiceClass, sw.name, subtype);
 
       this.setServiceName(service, sw.name);

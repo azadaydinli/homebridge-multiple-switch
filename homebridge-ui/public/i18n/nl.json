@@ -11,7 +11,7 @@
   "switchName": "Schakelaarnaam",
   "switchNameDesc": "Weergavenaam van de schakelaar in HomeKit.",
   "switchType": "Schakelaartype",
-  "switchTypeDesc": "Het HomeKit-accessoiretype voor deze schakelaar.",
+  "switchTypeDesc": "Het HomeKit-accessoiretype voor alle schakelaars in dit apparaat.",
   "typeSwitch": "Schakelaar",
   "typeOutlet": "Stopcontact",
   "defaultState": "Standaardstatus",

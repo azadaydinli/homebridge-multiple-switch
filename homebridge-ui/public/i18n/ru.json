@@ -11,7 +11,7 @@
   "switchName": "Название переключателя",
   "switchNameDesc": "Отображаемое имя переключателя в HomeKit.",
   "switchType": "Тип переключателя",
-  "switchTypeDesc": "Тип аксессуара HomeKit для этого переключателя.",
+  "switchTypeDesc": "Тип аксессуара HomeKit для всех переключателей в этом устройстве.",
   "typeSwitch": "Выключатель",
   "typeOutlet": "Розетка",
   "defaultState": "Состояние по умолчанию",

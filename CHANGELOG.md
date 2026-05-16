@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0-beta.1] - 2026-05-17
+
+### Changed
+- Switch type (Switch / Outlet) is now configured per device instead of per individual switch
+- All switches within a device share the same type, set once in the device settings
+- Switch cards no longer show a type selector — type is shown in the collapsed summary from the device level
+
+### Fixed
+- Automatic migration: existing configs with per-switch `type` are migrated to device-level `switchType` on first UI save (first switch's type is used as the device type)
+
 ## [1.6.0] - 2026-03-22
 
 ### Added

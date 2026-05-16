@@ -11,7 +11,7 @@
   "switchName": "Schaltername",
   "switchNameDesc": "Anzeigename des Schalters in HomeKit.",
   "switchType": "Schaltertyp",
-  "switchTypeDesc": "Der HomeKit-Zubehörtyp für diesen Schalter.",
+  "switchTypeDesc": "Der HomeKit-Zubehörtyp für alle Schalter in diesem Gerät.",
   "typeSwitch": "Schalter",
   "typeOutlet": "Steckdose",
   "defaultState": "Standardzustand",

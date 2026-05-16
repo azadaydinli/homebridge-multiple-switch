@@ -11,7 +11,7 @@
   "switchName": "Nom de l'interrupteur",
   "switchNameDesc": "Nom affiché de l'interrupteur dans HomeKit.",
   "switchType": "Type d'interrupteur",
-  "switchTypeDesc": "Le type d'accessoire HomeKit pour cet interrupteur.",
+  "switchTypeDesc": "Le type d'accessoire HomeKit pour tous les interrupteurs de cet appareil.",
   "typeSwitch": "Interrupteur",
   "typeOutlet": "Prise",
   "defaultState": "État par défaut",

@@ -11,7 +11,7 @@
   "switchName": "اسم المفتاح",
   "switchNameDesc": "اسم العرض للمفتاح في HomeKit.",
   "switchType": "نوع المفتاح",
-  "switchTypeDesc": "نوع ملحق HomeKit لهذا المفتاح.",
+  "switchTypeDesc": "نوع ملحق HomeKit لجميع المفاتيح في هذا الجهاز.",
   "typeSwitch": "مفتاح",
   "typeOutlet": "مقبس",
   "defaultState": "الحالة الافتراضية",

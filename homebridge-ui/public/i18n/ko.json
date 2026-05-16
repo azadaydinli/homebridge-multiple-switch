@@ -11,7 +11,7 @@
   "switchName": "스위치 이름",
   "switchNameDesc": "HomeKit에서 스위치의 표시 이름.",
   "switchType": "스위치 유형",
-  "switchTypeDesc": "이 스위치의 HomeKit 액세서리 유형.",
+  "switchTypeDesc": "이 장치의 모든 스위치에 적용되는 HomeKit 액세서리 유형.",
   "typeSwitch": "스위치",
   "typeOutlet": "콘센트",
   "defaultState": "기본 상태",

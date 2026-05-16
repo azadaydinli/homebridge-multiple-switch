@@ -11,7 +11,7 @@
   "switchName": "スイッチ名",
   "switchNameDesc": "HomeKit でのスイッチの表示名。",
   "switchType": "スイッチタイプ",
-  "switchTypeDesc": "このスイッチの HomeKit アクセサリタイプ。",
+  "switchTypeDesc": "このデバイス内のすべてのスイッチの HomeKit アクセサリタイプ。",
   "typeSwitch": "スイッチ",
   "typeOutlet": "コンセント",
   "defaultState": "デフォルト状態",

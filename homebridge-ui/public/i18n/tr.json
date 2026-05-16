@@ -11,7 +11,7 @@
   "switchName": "Anahtar Adı",
   "switchNameDesc": "Anahtarın HomeKit'teki görünen adı.",
   "switchType": "Anahtar Tipi",
-  "switchTypeDesc": "Bu anahtar için HomeKit aksesuar tipi.",
+  "switchTypeDesc": "Bu cihazdaki tüm anahtarlar için HomeKit aksesuar tipi.",
   "typeSwitch": "Anahtar",
   "typeOutlet": "Priz",
   "defaultState": "Varsayılan Durum",

@@ -11,7 +11,7 @@
   "switchName": "开关名称",
   "switchNameDesc": "开关在 HomeKit 中的显示名称。",
   "switchType": "开关类型",
-  "switchTypeDesc": "此开关的 HomeKit 配件类型。",
+  "switchTypeDesc": "此设备中所有开关的 HomeKit 配件类型。",
   "typeSwitch": "开关",
   "typeOutlet": "插座",
   "defaultState": "默认状态",

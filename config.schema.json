@@ -34,6 +34,16 @@
                 { "title": "Single", "enum": ["single"] }
               ]
             },
+            "switchType": {
+              "title": "Switch Type",
+              "description": "The HomeKit accessory type for all switches in this device.",
+              "type": "string",
+              "default": "outlet",
+              "oneOf": [
+                { "title": "Switch", "enum": ["switch"] },
+                { "title": "Outlet", "enum": ["outlet"] }
+              ]
+            },
             "masterSwitch": {
               "title": "Master Switch",
               "description": "Add a master switch that turns all switches on or off at once. Only available in Single mode.",
@@ -51,16 +61,6 @@
                     "title": "Switch Name",
                     "description": "Display name of the switch in HomeKit.",
                     "type": "string"
-                  },
-                  "type": {
-                    "title": "Switch Type",
-                    "description": "The HomeKit accessory type for this switch.",
-                    "type": "string",
-                    "default": "outlet",
-                    "oneOf": [
-                      { "title": "Switch", "enum": ["switch"] },
-                      { "title": "Outlet", "enum": ["outlet"] }
-                    ]
                   },
                   "defaultState": {
                     "title": "Default State",

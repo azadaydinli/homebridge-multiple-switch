@@ -11,7 +11,7 @@
   "switchName": "Nazwa przełącznika",
   "switchNameDesc": "Wyświetlana nazwa przełącznika w HomeKit.",
   "switchType": "Typ przełącznika",
-  "switchTypeDesc": "Typ akcesorium HomeKit dla tego przełącznika.",
+  "switchTypeDesc": "Typ akcesorium HomeKit dla wszystkich przełączników w tym urządzeniu.",
   "typeSwitch": "Przełącznik",
   "typeOutlet": "Gniazdko",
   "defaultState": "Stan domyślny",
