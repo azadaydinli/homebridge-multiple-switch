@@ -12,6 +12,7 @@ A lightweight Homebridge plugin that lets you create multiple customizable dummy
 [![npm](https://img.shields.io/npm/v/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![npm](https://img.shields.io/npm/dw/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
 [![npm](https://img.shields.io/npm/dt/homebridge-multiple-switch)](https://www.npmjs.com/package/homebridge-multiple-switch)
+[![Ko-fi](https://img.shields.io/badge/Support%20on-Ko--fi-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/azadaydinli)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/azadaydinli?label=Sponsor&logo=GitHub)](https://github.com/sponsors/azadaydinli)
 
 </span>
